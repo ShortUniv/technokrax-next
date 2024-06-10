@@ -1,0 +1,68 @@
+.botreply b {
+  color: rgb(0 0 0);
+  font-size: 18px;
+}
+.botreply b:before {
+  color: black;
+}
+
+.scrollable-container {
+  overflow-y: scroll;
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.scrollable-container::-webkit-scrollbar {
+  width: 0;  /* Remove scrollbar space */
+  background: transparent;  /* Optional: just make scrollbar invisible */
+}
+
+/* Optional: show position indicator */
+.scrollable-container::-webkit-scrollbar-thumb {
+  background: transparent;  /* Optional: just make scrollbar thumb invisible */
+}
+
+.skeleton-loader {
+  padding: 10px;
+}
+
+.skeleton {
+  background-color: #e0e0e0;
+  border-radius: 4px;
+  position: relative;
+  overflow: hidden;
+  margin: 10px 0;
+}
+
+.skeleton::before {
+  content: '';
+  display: block;
+  position: absolute;
+  top: 0;
+  left: -150px;
+  height: 100%;
+  width: 150px;
+  background: linear-gradient(to right, #e0e0e0 0%, #f0f0f0 50%, #e0e0e0 100%);
+  animation: shimmer 1.5s infinite;
+}
+
+.skeleton-line {
+  height: 15px;
+  width: 100%;
+}
+
+.skeleton-line.short {
+  width: 60%;
+}
+
+@keyframes shimmer {
+  0% {
+    left: -150px;
+  }
+  50% {
+    left: 100%;
+  }
+  100% {
+    left: 100%;
+  }
+}
+

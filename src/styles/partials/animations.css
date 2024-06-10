@@ -1,0 +1,38 @@
+.spinner-animation {
+  animation: spinner 1.6s linear infinite;
+}
+
+.spinner-animation-secondary {
+  animation: spinner 1.6s linear infinite;
+  animation-delay: -1s; /* Adjusted animation delay */
+}
+
+@keyframes spinner {
+  0% {
+    transform: translate(0, 0); /* Initial position */
+  }
+  12.5% {
+    transform: translate(13px, 0); /* Move right */
+  }
+  25% {
+    transform: translate(13px, 13px); /* Move down-right */
+  }
+  37.5% {
+    transform: translate(0, 13px); /* Move down */
+  }
+  50% {
+    transform: translate(-13px, 13px); /* Move down-left */
+  }
+  62.5% {
+    transform: translate(-13px, 0); /* Move left */
+  }
+  75% {
+    transform: translate(-13px, -13px); /* Move up-left */
+  }
+  87.5% {
+    transform: translate(0, -13px); /* Move up */
+  }
+  100% {
+    transform: translate(13px, -13px); /* Move up-right */
+  }
+}

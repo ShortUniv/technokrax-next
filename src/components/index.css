@@ -1,0 +1,31 @@
+.slick-slide > div {
+    margin: 0 10px;
+  }
+  
+  #map {
+    height: 500px;
+    margin-bottom: 100px;
+  }
+  
+  .leaflet-container {
+    height: 500px;
+    width: 90%;
+    margin-bottom: 100px;
+  }
+  
+  .leaflet-div-icon {
+    background: transparent;
+    border: none;
+  }
+  /* 
+    textarea::placeholder {
+      text-align:left;
+    transform: translateY(50px);
+    overflow: hidden;
+  
+    } */
+  
+  div.tiptap.ProseMirror {
+    padding: 20px;
+  }
+  
