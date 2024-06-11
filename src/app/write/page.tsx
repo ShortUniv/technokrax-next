@@ -58,9 +58,10 @@ export default function Document() {
 
   // const searchParams = new URLSearchParams(location?.search); // Parse search params
   // const hasCollab = parseInt(searchParams.get("noCollab") as string) !== 1;
-  const searchParams = useSearchParams()
+  // const searchParams = useSearchParams()
 
-  const hasCollab = parseInt(searchParams.get('noCollab') as string) !== 1
+  // const hasCollab = parseInt(searchParams.get('noCollab') as string) !== 1
+  const hasCollab = true
   
   const getNanoId = (): string => {
     const nanoid = customAlphabet("6789BCDFGHJKLMNPQRTWbcdfghjkmnpqrtwz", 10);
