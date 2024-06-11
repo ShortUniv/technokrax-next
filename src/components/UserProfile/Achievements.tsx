@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useSelector } from "react-redux";
+import Image from "next/image";
 
 const Badges = () => {
   const { profile } = useSelector((state: any) => state.profile);
@@ -7,13 +8,13 @@ const Badges = () => {
     <>
       {profile?.achievements?.badges?.map((data: any,index:number) => (
         <div key={data?._id || index} className=" gap-10 grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
-          <img src={data.badgeUrl} alt="" className="w-[100px] h-[100px]" />
-          <img src={data.badgeUrl} alt="" className="w-[100px] h-[100px]" />
-          <img src={data.badgeUrl} alt="" className="w-[100px] h-[100px]" />
-          <img src={data.badgeUrl} alt="" className="w-[100px] h-[100px]" />
-          <img src={data.badgeUrl} alt="" className="w-[100px] h-[100px]" />
-          <img src={data.badgeUrl} alt="" className="w-[100px] h-[100px]" />
-          <img src={data.badgeUrl} alt="" className="w-[100px] h-[100px]" />
+          <Image src={data.badgeUrl} alt="" width="100" height="100" className="w-[100px] h-[100px]" />
+          <Image src={data.badgeUrl} alt="" width="100" height="100" className="w-[100px] h-[100px]" />
+          <Image src={data.badgeUrl} alt="" width="100" height="100" className="w-[100px] h-[100px]" />
+          <Image src={data.badgeUrl} alt="" width="100" height="100" className="w-[100px] h-[100px]" />
+          <Image src={data.badgeUrl} alt="" width="100" height="100" className="w-[100px] h-[100px]" />
+          <Image src={data.badgeUrl} alt="" width="100" height="100" className="w-[100px] h-[100px]" />
+          <Image src={data.badgeUrl} alt="" width="100" height="100" className="w-[100px] h-[100px]" />
         </div>
       ))}
     </>
@@ -26,37 +27,37 @@ const Awards = () => {
       {/* {profile?.achievements?.awards?.map((data:any) => ( */}
       <div className=" gap-10 grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
 
-        <img
+        <Image
           src="https://i.postimg.cc/Kvgcwqp0/trophy.png"
           alt=""
           className="w-[100px] h-[100px]"
         />
-        <img
+        <Image
           src="https://i.postimg.cc/Kvgcwqp0/trophy.png"
           alt=""
           className="w-[100px] h-[100px]"
         />
-        <img
+        <Image
           src="https://i.postimg.cc/Kvgcwqp0/trophy.png"
           alt=""
           className="w-[100px] h-[100px]"
         />
-        <img
+        <Image
           src="https://i.postimg.cc/Kvgcwqp0/trophy.png"
           alt=""
           className="w-[100px] h-[100px]"
         />
-        <img
+        <Image
           src="https://i.postimg.cc/Kvgcwqp0/trophy.png"
           alt=""
           className="w-[100px] h-[100px]"
         />
-        <img
+        <Image
           src="https://i.postimg.cc/Kvgcwqp0/trophy.png"
           alt=""
           className="w-[100px] h-[100px]"
         />
-        <img
+        <Image
           src="https://i.postimg.cc/Kvgcwqp0/trophy.png"
           alt=""
           className="w-[100px] h-[100px]"

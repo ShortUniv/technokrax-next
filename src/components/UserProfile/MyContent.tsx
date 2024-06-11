@@ -1,6 +1,7 @@
 import { useState } from "react";
+import { PlayCircleOutline } from "@mui/icons-material"; 
+import Image from "next/image";
 
-import { PlayCircleOutline } from "@mui/icons-material";
 
 const Articles = () => {
   const articles = [
@@ -42,10 +43,12 @@ const Articles = () => {
           key={article.id}
           className="bg-white shadow-md rounded-lg overflow-hidden"
         >
-          <img
+          <Image
             src={article.imageUrl}
             alt={article.title}
             className="w-full h-48 object-cover object-center"
+            width='192'
+            height='192'
           />
           <div className="p-4">
             <h3 className="text-lg font-semibold mb-2">{article.title}</h3>
@@ -108,9 +111,11 @@ const Videos = () => {
           key={video.id}
           className="relative bg-white shadow-md rounded-lg overflow-hidden"
         >
-          <img
+          <Image
             src={video.thumbnailUrl}
             alt={video.title}
+            width={192}
+            height={192}
             className="w-full h-48 object-cover object-center"
           />
           <div className="absolute inset-0 flex items-center justify-center">
@@ -172,8 +177,8 @@ const News = () => {
     <>
          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
 
-        {newsData.map((data) => (
-          <div className="max-w-sm rounded overflow-hidden shadow-lg mx-auto">
+        {newsData.map((data,index:number) => (
+          <div key={index}className="max-w-sm rounded overflow-hidden shadow-lg mx-auto">
             <img
               className="w-full h-48 object-cover object-center"
               src={data.imageUrl}

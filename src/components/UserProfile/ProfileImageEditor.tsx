@@ -5,7 +5,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import { useDispatch } from "react-redux";
 import { saveProfileImage } from "../../actions/Profile";
 import axios from "axios";
-// import "../../index.css"
+import Image from "next/image";
 
 const ProfileImageEditor = ({ setImgCard, imgCard }: any) => {
   const [image, setImage] = useState("");
@@ -187,7 +187,7 @@ const ProfileImageEditor = ({ setImgCard, imgCard }: any) => {
             </div>
           </div>
           {!!preview && (
-            <img
+            <Image
               src={preview.img}
               style={{
                 borderRadius: `${

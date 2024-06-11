@@ -9,8 +9,8 @@ const AboutUs = () => {
         About Us
       </h2>
       <p className="text-[20px] font-normal leading-[24px] text-center mb-10 ">
-      Welcome to Technokrax, where passion ignites and innovation thrives. Born from the creative minds at RevoltronX, our mission is to pioneer the future of technology and education. With this vision at heart, we've crafted a platform dedicated to revolutionizing learning. Every line of code, every feature – they're all infused with our dedication to harnessing the transformative power of education.
-At Technokrax, we understand that everyone is unique – from their learning style to their passions and pace. That's why we've meticulously tailored every aspect of this platform to resonate with you, offering personalized learning experiences and unwavering support every step of the way. We're here to celebrate your distinctiveness and spark the flames of passion within you.
+        Welcome to Technokrax, where passion ignites and innovation thrives. Born from the creative minds at RevoltronX, our mission is to pioneer the future of technology and education. With this vision at heart, we&apos;ve crafted a platform dedicated to revolutionizing learning. Every line of code, every feature – they&apos;re all infused with our dedication to harnessing the transformative power of education.
+        At Technokrax, we understand that everyone is unique – from their learning style to their passions and pace. That&apos;s why we&apos;ve meticulously tailored every aspect of this platform to resonate with you, offering personalized learning experiences and unwavering support every step of the way. We&apos;re here to celebrate your distinctiveness and spark the flames of passion within you.
       </p>
       <button className="w-[150px] h-[47px] bg-[#1D2BCA] text-[#FFFFFF] rounded-[50px] mb-8">
         See more

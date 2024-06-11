@@ -154,8 +154,8 @@ const ArticleComments = ({
               Top Comments
             </h3>
             <hr className="h-[2px] bg-[#6B6B6B]  opacity-20 my-2" />
-            {commentsState?.map((data: any) => (
-              <div className="mt-4">
+            {commentsState?.map((data: any,index:number) => (
+              <div key={index} className="mt-4">
                 <div className="flex gap-8">
                   <button>
                     <Avatar

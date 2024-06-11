@@ -4,6 +4,7 @@ import { EditorUser } from "../types";
 import { cn } from "../../../lib/utils";
 import { getConnectionText } from "../../../lib/utils/getConnectionText";
 import Tooltip from "../../ui/Tooltip";
+import Image from "next/image";
 
 export type EditorInfoProps = {
   characters: number;
@@ -63,7 +64,7 @@ export const EditorInfo = memo(
                 {users.map((user: EditorUser) => (
                   <div key={user.clientId} className="-ml-3">
                     <Tooltip title={user.name}>
-                      <img
+                      <Image
                         className="w-8 h-8 border border-white rounded-full dark:border-black"
                         src={`https://api.dicebear.com/7.x/notionists-neutral/svg?seed=${
                           user.name

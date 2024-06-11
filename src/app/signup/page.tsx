@@ -15,6 +15,7 @@ import { sendOtp, setSignUpData } from "../../actions/Auth";
 import Input from "@/components/Input";
 import Image from "next/image";
 
+
 interface FormData {
   name: string;
   email: string;
@@ -65,12 +66,15 @@ const router = useRouter();
   </Helmet>
     <div className="flex">
       <div className="w-[50%] h-[100vh] p-[6rem] bg-[#F5F5F9] hidden lg:block">
-        <img
+        <Image
           src="https://demos.themeselection.com/sneat-mui-react-nextjs-admin-template/demo-1/images/pages/girl-with-laptop-light.png"
-          alt=""
+          alt="image"
+          width={500}
+          height={500}
         />
       </div>
       <div className="mx-auto mt-[3rem]  w-[80%] sm:w-[60%] lg:w-[30%] lg:mx-[10%]">
+        <Link href="/">
         <div className="flex-shrink-0 flex items-center">
           <Image className="h-8 w-auto" src={Logo} alt="Logo" />
           <span className="text-[#1D2BCA] text-3xl font-semibold ml-2 ">
@@ -78,6 +82,7 @@ const router = useRouter();
             <span className="text-[#F8990C] text-3xl font-semibold">krax</span>
           </span>
         </div>
+        </Link>
         <h3 className="text-[20px] text-[#32475CDE] mt-10 mb-2 font-semibold lg:max-xl:mt-7">
           Adventure starts here 🚀
         </h3>

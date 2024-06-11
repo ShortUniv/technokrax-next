@@ -133,8 +133,8 @@ const SidePanel = ({ isSidePanelOpen, setIsSidePanelOpen }: any) => {
         </div>
       </div>
       <div className="flex flex-col mt-8 ">
-        {AdminSidePanelData.map((data: any) => (
-          <div className="flex  gap-4 py-3  pl-6 hover:bg-blue-50 cursor-pointer">
+        {AdminSidePanelData.map((data: any,index:number) => (
+          <div key={index} className="flex  gap-4 py-3  pl-6 hover:bg-blue-50 cursor-pointer">
             {data.img}
             <p
               className={`${!isSidePanelOpen && "hidden"} origin-left duration-200`}

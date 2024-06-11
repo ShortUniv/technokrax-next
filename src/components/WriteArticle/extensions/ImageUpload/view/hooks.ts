@@ -1,11 +1,7 @@
-
- import { DragEvent, useCallback, useEffect, useRef, useState } from 'react'
+import { DragEvent, useCallback, useEffect, useRef, useState } from 'react'
 import toast from 'react-hot-toast'
 import { API } from '../../../lib/api'
-// import { url } from 'inspector'
 import axios from 'axios'
-
-
 
 export const useUploader = ({ onUpload }: { onUpload: (url: string) => void }) => {
   const [loading, setLoading] = useState(false)
@@ -16,14 +12,12 @@ export const useUploader = ({ onUpload }: { onUpload: (url: string) => void }) =
       const url = await API.uploadImage()
       console.log('IMaheUrlss:', url)
       // onUpload(url)
-
-  
     } catch (errPayload: any) {
       const error = errPayload?.response?.data?.error || 'Something went wrong'
       toast.error(error)
     }
     setLoading(false)
-  }, [onUpload])
+  }, []) // Removed `onUpload`
 
   return { loading, uploadFile }
 }
@@ -35,45 +29,36 @@ export const useFileUpload = ({ onUpload }: { onUpload: (url: string) => void })
     fileInput.current?.click()
   }, [])
 
-  const uploadToImgBB = async (imageData:any) => {
+  const uploadToImgBB = async (imageData: any) => {
     try {
-      const formData = new FormData();
-      formData.append('image',imageData)
-      const res = await axios.post('https://api.imgbb.com/1/upload?key=6658c40a365aea022ec363dd205f77f6',formData);
-      console.log(res.data.data.url); // Log the URL to verify
-      return res.data.data.url;
+      const formData = new FormData()
+      formData.append('image', imageData)
+      const res = await axios.post('https://api.imgbb.com/1/upload?key=6658c40a365aea022ec363dd205f77f6', formData)
+      console.log(res.data.data.url) // Log the URL to verify
+      return res.data.data.url
     } catch (error) {
-      console.error('Error uploading image:', error);
+      console.error('Error uploading image:', error)
       // Handle error appropriately, e.g., show error message to user
-      return null;
+      return null
     }
-  };
+  }
 
-  const handleChange = useCallback (async(event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = useCallback(async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0]
     if (file) {
-      // const reader = new FileReader()
-      // reader.onload = e => {
-      //   if (e.target?.result && typeof e.target.result === 'string') {
-      //     // Set the image URL for preview (data URL format)
-      //     setImageUrl(e.target.result)
-      //     onUpload(e.target.result)
-      //   }
-      // }
-      // reader.readAsDataURL(file)
       try {
-        const imageUrl = await uploadToImgBB(file);
+        const imageUrl = await uploadToImgBB(file)
         if (imageUrl) {
           // Update your articleData with the imageUrl
-          setImageUrl(imageUrl);
-          onUpload(imageUrl)// Log the imageUrl to verify
+          setImageUrl(imageUrl)
+          onUpload(imageUrl) // Log the imageUrl to verify
         }
       } catch (error) {
         // Handle error appropriately, e.g., show error message to user
-        console.error('Error uploading image:', error);
+        console.error('Error uploading image:', error)
       }
     }
-  }, [])
+  }, [onUpload, uploadToImgBB]) // Added `onUpload` and `uploadToImgBB`
 
   const [imageUrl, setImageUrl] = useState<string | null>(null)
 

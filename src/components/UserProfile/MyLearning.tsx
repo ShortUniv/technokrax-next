@@ -1,5 +1,5 @@
 import Slider from "react-slick";
-// import "../..//index.css"
+import Image from "next/image";
 
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -113,7 +113,8 @@ const MyLearning:any = () => {
       <Slider {...settings}>
         {articles.map((article) => (
           <div key={article.id} className="w-[434.34px] h-[424px] bg-white shadow-md rounded-lg overflow-hidden">
-            <img src={article.imageUrl} alt={article.title} className="w-full h-48 object-cover object-center" />
+            <Image src={article.imageUrl} alt={article.title} className="w-full h-48 object-cover object-center" width='192'
+            height='192'/>
             <div className="p-4">
               <h3 className="text-lg font-semibold mb-2">{article.title}</h3>
               <p className="text-sm text-gray-600 mb-2">{article.description}</p>

@@ -10,6 +10,7 @@ import { useDispatch } from "react-redux";
 import { createArticle } from "@/actions/HomePage";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 const ArticlePreview = ({ publish, setPublish }: any) => {
   const dispatch = useDispatch();
@@ -190,10 +191,12 @@ const ArticlePreview = ({ publish, setPublish }: any) => {
         >
           {image ? (
             <>
-              <img
+              <Image
                 src={image}
                 alt=""
                 className="relative w-[440px] h-[200px]"
+                width={440}
+                height={200}
               />
 
               <div className="p-2 rounded-lg bg-black  opacity-50 absolute left-28 top-24">

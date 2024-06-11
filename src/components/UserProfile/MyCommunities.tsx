@@ -5,6 +5,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
+import Image from 'next/image';
 
 const MyCommunities = () => {
   const communities = [
@@ -137,7 +138,9 @@ const MyCommunities = () => {
               key={community.id}
               className={` w-[300px] h-[320px] bg-gradient-to-br ${gradientClassNames[index]} rounded-lg p-4 flex gap-4 items-center shadow-lg mr-4 `}
             >
-              <img
+              <Image
+              width='64'
+              height='64'
                 src="https://media.istockphoto.com/id/1424987910/photo/coworkers-with-stacked-hands-at-the-office.jpg?s=1024x1024&w=is&k=20&c=zRECSFVK3ZaCa-OCMH_xhrB5x2iGpjy7p-_RL3ywafw="
                 alt={community.name}
                 className="w-16 h-16 rounded-full mr-4 my-2 "

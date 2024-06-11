@@ -1,4 +1,5 @@
 import { useSelector } from "react-redux";
+import Image from "next/image";
 
 const Certificates = () => {
   const { profile } = useSelector((state: any) => state.profile);
@@ -13,17 +14,23 @@ const Certificates = () => {
 
       <div>
         <div className="grid grid-cols-2 lg:grid-cols-3 gap-10">
-          <img
+          <Image
+            width="300"
+            height="168"
             src="https://i.postimg.cc/hPFgkY4y/White-and-Gold-Certificate-of-Appreciation.png"
             alt="img"
             className="w-[300px] h-[168.75px]"
           />
-          <img
+          <Image
+            width="300"
+            height="168"
             src="https://i.postimg.cc/hPFgkY4y/White-and-Gold-Certificate-of-Appreciation.png"
             alt="img"
             className="w-[300px] h-[168.75px]"
           />
-          <img
+          <Image
+            width="300"
+            height="168"
             src="https://i.postimg.cc/hPFgkY4y/White-and-Gold-Certificate-of-Appreciation.png"
             alt="img"
             className="w-[300px] h-[168.75px]"

@@ -7,6 +7,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import ProfileEditCard from "./ProfileEditCard";
 import { useSelector } from "react-redux";
 import ProfileImageEditor from "./ProfileImageEditor";
+import Image from "next/image";
 
 const UserDetails = () => {
   const [editCard, setEditCard] = useState<any>(false);
@@ -34,10 +35,12 @@ const UserDetails = () => {
               className="w-40 h-40 bg-gray-300 rounded-full cursor-pointer overflow-hidden"
               onClick={() => setImgCard(!imgCard)}
             >
-              <img
+              <Image
               src={profile?.userInfo?.photo || "https://i.ibb.co/3m3Lx5B/dummy-avatar.jpg"}
                 className="w-full h-full object-cover"
                 alt="Profile Photo"
+                width='160'
+                height='160'
               />
             </div>
             <div className="flex gap-4 mt-6">

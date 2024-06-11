@@ -55,6 +55,12 @@ const [user,setUser] = useState<any>(null)
 // localStorage.setItem("profile", JSON.stringify(profile));
 // }
 
+const handleLogout = () => {
+  router.push("/signin");
+  localStorage.removeItem("profile");
+  setUser(null);
+};
+
   useEffect(() => {
     if (typeof window !== "undefined") {
       const profile = localStorage.getItem("profile");
@@ -79,13 +85,9 @@ const [user,setUser] = useState<any>(null)
         setUser(null);
       }
     }
-  }, [router]);
+  }, [router,handleLogout]);
 
-  const handleLogout = () => {
-    router.push("/signin");
-    localStorage.removeItem("profile");
-    setUser(null);
-  };
+
   // useEffect(() => {
   //   if (typeof window !== "undefined") {
   //     const profile = localStorage.getItem("profile");
