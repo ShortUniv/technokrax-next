@@ -7,7 +7,7 @@ const SourceOfLeadsChart = () => {
 
   useEffect(() => {
     // Example data for source of leads
-    if (chartContainer?.current) {
+    if (typeof window !== 'undefined' && chartContainer.current) {
 
     const sourceOfLeadsData = {
       labels: ['Desktop', 'Mobile', 'Tablet', 'Other'],

@@ -6,7 +6,7 @@ const TopTopicsChart = () => {
   const chartContainer = useRef<any>(null);
 
   useEffect(() => {
-    // Example data for top performing topics
+    if (typeof window !== 'undefined') {
     const topTopicsData = {
       labels: [
         "AI",
@@ -90,6 +90,7 @@ const TopTopicsChart = () => {
     return () => {
       topTopicsChart.destroy();
     };
+  }
   }, []);
 
   return (

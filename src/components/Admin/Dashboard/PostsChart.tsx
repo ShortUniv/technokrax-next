@@ -9,6 +9,7 @@ const PostsChart = () => {
   const [trendColor, setTrendColor] = useState<any>(null);
 
   useEffect(() => {
+    if (typeof window !== 'undefined') {
     const userData = {
       labels: ["January", "February", "March", "April"],
       datasets: [
@@ -67,6 +68,7 @@ const PostsChart = () => {
     return () => {
       userChart.destroy();
     };
+  }
   }, []);
 
   return (

@@ -38,7 +38,7 @@ const TopPanel = () => {
       const profile = localStorage.getItem("profile");
       if (profile) {
         const parsedProfile = JSON.parse(profile) as User;
-        const token = parsedProfile.token;
+
         setUser(parsedProfile);
 
       
