@@ -1,12 +1,12 @@
-'use client'
-import Header from '@/components/Admin/Dashboard/Header'
+"use client";
+import Header from "@/components/Admin/Dashboard/Header";
 
 const AdminDashboard = () => {
   return (
-    <div className='overflow-hidden'><Header/>
-   
+    <div className="overflow-hidden">
+      <Header />
     </div>
-  )
-}
+  );
+};
 
-export default AdminDashboard
+export default AdminDashboard;

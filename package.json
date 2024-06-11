@@ -89,6 +89,7 @@
     "iframe-resizer": "^4.3.9",
     "jsonwebtoken": "^9.0.1",
     "jwt-decode": "^4.0.0",
+    "lodash.debounce": "^4.0.8",
     "lowlight": "^2.9.0",
     "lucide-react": "^0.266.0",
     "medium-editor-plugin": "^0.1.10",
@@ -115,6 +116,7 @@
     "react-slick": "^0.30.2",
     "redux": "^5.0.1",
     "redux-thunk": "^3.1.0",
+    "rimraf": "^5.0.7",
     "slick-carousel": "^1.8.1",
     "tailwind-merge": "^1.14.0",
     "tailwindcss-animate": "^1.0.7",
@@ -126,9 +128,11 @@
     "yjs": "^13.6.11"
   },
   "devDependencies": {
+    "@types/lodash.debounce": "^4.0.9",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "@types/uuid": "^9.0.8",
     "eslint": "^8",
     "eslint-config-next": "14.2.3",
     "postcss": "^8",

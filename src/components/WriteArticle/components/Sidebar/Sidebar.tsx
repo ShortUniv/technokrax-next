@@ -1,4 +1,4 @@
-
+'use client'
 import { cn } from '../../lib/utils'
 import { memo, useCallback } from 'react'
 import { Editor } from '@tiptap/react'

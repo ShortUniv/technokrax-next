@@ -64,7 +64,7 @@ export const EditorInfo = memo(
                 {users.map((user: EditorUser) => (
                   <div key={user.clientId} className="-ml-3">
                     <Tooltip title={user.name}>
-                      <Image
+                      <img
                         className="w-8 h-8 border border-white rounded-full dark:border-black"
                         src={`https://api.dicebear.com/7.x/notionists-neutral/svg?seed=${
                           user.name

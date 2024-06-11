@@ -1,4 +1,5 @@
-import { useState } from "react";
+'use client'
+import { useState,useEffect } from "react";
 import MenuIcon from "@mui/icons-material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
 import { AdminSidePanelData } from "../../../constants/sampleData";
@@ -19,10 +20,33 @@ import Brightness4Icon from "@mui/icons-material/Brightness4";
 import Dashboard from "./Dashboard";
 import  Link  from "next/link";
 
+
+interface User {
+  user: {
+    name: string;
+    userId: string;
+  };
+  token: string;
+}
+
 const TopPanel = () => {
   const mode = "dark";
+  const [user, setUser] = useState<any>(null);
 
-  const user = JSON.parse(localStorage.getItem("profile")!);
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const profile = localStorage.getItem("profile");
+      if (profile) {
+        const parsedProfile = JSON.parse(profile) as User;
+        const token = parsedProfile.token;
+        setUser(parsedProfile);
+
+      
+      } else {
+        setUser(null);
+      }
+    }
+  }, []);
 
   const [isSidePanelOpen, setIsSidePanelOpen] = useState(true);
 

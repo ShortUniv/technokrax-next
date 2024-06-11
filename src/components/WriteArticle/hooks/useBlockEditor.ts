@@ -1,3 +1,4 @@
+'use client'
 import { useEffect, useMemo, useState } from "react";
 import { Editor, useEditor } from "@tiptap/react";
 import Collaboration from "@tiptap/extension-collaboration";
