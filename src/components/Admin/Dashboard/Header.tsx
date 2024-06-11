@@ -1,5 +1,5 @@
 'use client'
-import { useState,useEffect } from "react";
+import { useState,useEffect} from "react";
 import MenuIcon from "@mui/icons-material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
 import { AdminSidePanelData } from "../../../constants/sampleData";

@@ -1,6 +1,7 @@
 'use client'
 import { TiptapCollabProvider } from "@hocuspocus/provider";
 import {
+  Suspense,
   useCallback,
   useEffect,
   useLayoutEffect,
@@ -124,8 +125,11 @@ export default function Document() {
 
   return (
     <>
+    <Suspense fallback={<div>Loading...</div>}>
+
       {DarkModeSwitcher}
       <BlockEditor hasCollab={hasCollab} ydoc={ydoc} provider={provider} />
+    </Suspense>
     </>
   );
 }
