@@ -1,5 +1,5 @@
-'use client'
-import { useEffect,useState } from "react";
+"use client";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import "react-loading-skeleton/dist/skeleton.css";
 
@@ -33,8 +33,6 @@ interface TrendingArticlesState {
   tagId: string;
 }
 
-
-
 const Trending = () => {
   const heading = "What’s Trending";
   const subheading =
@@ -44,32 +42,16 @@ const Trending = () => {
   );
   let articlesArray = Object.values(trendingArticles);
 
-  const [user,setUser] = useState<any>(null) 
-
-
-  useEffect(() => {
-    const profile = localStorage.getItem("profile");
-    if (profile) {
-      setUser(JSON.parse(profile));
-    }
-  }, []);
-
- 
-
   return (
     <>
-    {user?.user?.userId && (
-
       <HomeArticle
-    article={articlesArray}
-  heading={heading}
-subheading={subheading}
-isLoading={isLoading}
-type="trendingArticles"
-/>
-)}
-      </>
-  
+        article={articlesArray}
+        heading={heading}
+        subheading={subheading}
+        isLoading={isLoading}
+        type="trendingArticles"
+      />
+    </>
   );
 };
 
