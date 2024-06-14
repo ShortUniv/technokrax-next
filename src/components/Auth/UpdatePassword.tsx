@@ -1,16 +1,16 @@
 'use client'
-import { useState } from "react";
+import { useState ,useEffect} from "react";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { BiArrowBack } from "react-icons/bi";
 import { useDispatch, useSelector } from "react-redux";
 import Link from "next/link";
 import { resetPassword } from "@/actions/Auth";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter, useParams } from "next/navigation";
 
 function UpdatePassword() {
   const dispatch = useDispatch();
   const router = useRouter();
-  const searchParams = useSearchParams();
+
   const { isLoading } = useSelector((state: any) => state.authData);
   const [formData, setFormData] = useState({
     password: "",
@@ -29,9 +29,11 @@ function UpdatePassword() {
     }));
   };
 
+  const { token } = useParams<any>();
+ 
+
   const handleOnSubmit = (e: any) => {
     e.preventDefault();
-    const token = searchParams.get("token");
     dispatch<any>(
       resetPassword(
         { password: password, confirmPassword: confirmPassword, token: token },
