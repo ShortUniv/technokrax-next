@@ -23,7 +23,8 @@ export const getForYouArticles = (userId: any) => async (dispatch: any) => {
   }
 };
 export const getSliderArticles =
-  (articleSliderData: any) => async (dispatch: any) => {
+  (articleSliderData: any,setIsBeingFetched:any) => async (dispatch: any) => {
+  setIsBeingFetched(true);
     try {
       // dispatch({ type: "START_LOADING" });
       const { data } = await api.getSliderArticlesApi(articleSliderData);
@@ -49,24 +50,27 @@ export const getSliderArticles =
       else {
         console.log("Invalid type");
       }
+
+      setIsBeingFetched(false)
       // dispatch({ type: "END_LOADING" });
     } catch (error) {
       console.log(error);
     }
   };
-// export const getArticleById =
-//   (tagId: string, userId: string) => async (dispatch: any) => {
-//     try {
-//       dispatch({ type: "START_LOADING" });
-//       const { data } = await api.getArticleByIdApi(tagId, userId);
+export const getArticleByIds =
+  (tagId: string, userId: string) => async (dispatch: any) => {
+    try {
+      dispatch({ type: "START_LOADING" });
+      const { data } = await api.getArticleByIdApi(tagId, userId);
+      console.log("data:",data.result)
       
-//       dispatch({ type: "FETCH_ARTICLE_BY_ID", payload: data.result });
-//       dispatch({ type: "END_LOADING" });
-//       return data.result;
-//     } catch (error) {
-//       console.log(error);
-//     }
-//   };
+      dispatch({ type: "FETCH_ARTICLE_BY_ID", payload: data.result });
+      dispatch({ type: "END_LOADING" });
+      return data.result;
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
 
 export const getArticleById = async(tagId: string | undefined, userId: string)   => {

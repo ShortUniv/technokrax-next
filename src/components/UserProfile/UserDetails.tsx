@@ -1,19 +1,42 @@
-import { useState } from "react";
+'use client'
+import { useState,useEffect } from "react";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import XIcon from "@mui/icons-material/X";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import EditIcon from "@mui/icons-material/Edit";
 import ProfileEditCard from "./ProfileEditCard";
-import { useSelector } from "react-redux";
+import { useSelector,useDispatch } from "react-redux";
 import ProfileImageEditor from "./ProfileImageEditor";
 import Image from "next/image";
+import { getProfile } from "@/actions/Profile";
+
+
+interface User {
+  user: {
+    userId: string;
+
+  };
+}
 
 const UserDetails = () => {
   const [editCard, setEditCard] = useState<any>(false);
   const [imgCard, setImgCard] = useState<any>(false);
   const { profile } = useSelector((state: any) => state.profile);
+  const [user, setUser] = useState<User | null>(null);
+  const dispatch = useDispatch();
 
+  useEffect(() => {
+    const profile = localStorage.getItem("profile");
+    if (profile) {
+      const parsedUser = JSON.parse(profile);
+      setUser(parsedUser);
+
+      if (parsedUser?.user?.userId) {
+        dispatch<any>(getProfile(parsedUser.user.userId));
+      }
+    }
+  }, [dispatch]);
 
 
   return (

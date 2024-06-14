@@ -18,6 +18,7 @@ import SearchBar from "./SearchBar";
 import { jwtDecode } from "jwt-decode";
 import { navLinks, UserProfileOptions } from "../constants/sampleData";
 
+
 interface DecodedToken {
   exp: number;
   iat: number;
@@ -31,10 +32,14 @@ interface User {
   token: string;
 }
 export const NavbarComponent = () => {
+
   const notifications = [1, 2, 4, 5];
   const noOfNotifications = notifications?.length;
 const [user,setUser] = useState<any>(null)
+// const [user, setUser] = useState(JSON.parse(localStorage.getItem("profile")!));
+
   const router = useRouter();
+
   const [notificationActive, setNotificationActive] = useState(false);
 
   
@@ -61,31 +66,25 @@ const handleLogout = () => {
   setUser(null);
 };
 
+  
   useEffect(() => {
     if (typeof window !== "undefined") {
-      const profile = localStorage.getItem("profile");
-      if (profile) {
-        const parsedProfile = JSON.parse(profile) as User;
-        const token = parsedProfile.token;
+      const token = user?.token;
 
-        if (token) {
-          const decodedToken = jwtDecode<DecodedToken>(token);
-
-          if (
-            decodedToken &&
-            decodedToken.exp &&
-            decodedToken.exp * 1000 < new Date().getTime()
-          ) {
-            handleLogout();
-          }
-        }
-
-        setUser(parsedProfile);
-      } else {
-        setUser(null);
+      if (token) {
+        const decodedToken = jwtDecode(token);
+  
+        if (
+          decodedToken &&
+          decodedToken.exp &&
+          decodedToken.exp * 1000 < new Date().getTime()
+        )
+          handleLogout();
       }
+  
+      setUser(JSON.parse(localStorage.getItem("profile")!));
     }
-  }, [router,handleLogout]);
+  }, [router]);
 
 
   // useEffect(() => {
@@ -208,12 +207,13 @@ const handleLogout = () => {
                 <div className="flex lg:gap-6">
                   <Tooltip title="My Profile">
                     <Link href="/profile">
-                      <button>
-                        <Avatar
+                    <button className="w-[40px] h-[40px] bg-purple-700 rounded-full mt-[2px] text-white text-[20px] flex items-center justify-center">
+                    {user?.user?.name.charAt(0).toUpperCase()}
+                    {/* <Avatar
                           src={user?.user?.name.charAt(0)}
                           alt={user?.user?.name.charAt(0).toUpperCase()}
                           style={{ backgroundColor: "purple" }}
-                        />
+                        /> */}
                       </button>
                     </Link>
                   </Tooltip>

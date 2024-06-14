@@ -1,3 +1,5 @@
+'use client'
+
 import CloseIcon from "@mui/icons-material/Close";
 import Input from "../Input";
 import { useEffect, useState } from "react";

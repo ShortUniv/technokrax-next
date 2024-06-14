@@ -113,13 +113,8 @@ const ArticleComments = ({
             style={{ boxShadow: "rgba(0,0,0,0.12) 0 2px 8px" }}
           >
             <div className="flex gap-3 px-4 py-4 mt-6">
-              <button>
-                <Avatar
-                  sx={{ width: 32, height: 32 }}
-                  src={user?.user?.name.charAt(0)}
-                  alt={user?.user?.name.charAt(0).toUpperCase()}
-                  style={{ backgroundColor: "purple" }}
-                />
+            <button className="w-[30px] h-[30px] bg-purple-700 rounded-full mt-[2px] text-white text-[15px] flex items-center justify-center">
+            {user?.user?.name.charAt(0).toUpperCase()}
               </button>
               <p className="text-[14px] text-[#242424] py-1">
                 {user?.user.name}
@@ -157,14 +152,9 @@ const ArticleComments = ({
             {commentsState?.map((data: any,index:number) => (
               <div key={index} className="mt-4">
                 <div className="flex gap-8">
-                  <button>
-                    <Avatar
-                      sx={{ width: 32, height: 32 }}
-                      src={data.name.charAt(0)}
-                      alt={data.name.charAt(0).toUpperCase()}
-                      style={{ backgroundColor: "purple" }}
-                    />
-                  </button>
+                <button className="w-[30px] h-[30px] bg-purple-700 rounded-full mt-[2px] text-white text-[15px] flex items-center justify-center">
+            {user?.user?.name.charAt(0).toUpperCase()}
+              </button>
                   <div>
                     <div>
                       <p className="text-[14px] text-[#242424] ">{data.name}</p>

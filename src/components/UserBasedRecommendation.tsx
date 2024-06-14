@@ -1,4 +1,5 @@
 'use client'
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import "react-loading-skeleton/dist/skeleton.css";
 import HomeArticle from "./Common/HomeArticle";
@@ -11,14 +12,28 @@ const UserBasedRecommendation = () => {
     (state: any) => state?.recommendedArticles
   );
 
+  const [user,setUser] = useState<any>(null) 
+
+
+  useEffect(() => {
+    const profile = localStorage.getItem("profile");
+    if (profile) {
+      setUser(JSON.parse(profile));
+    }
+  }, []);
+
   return (
-    <HomeArticle
+    <>
+    {user?.user?.userId && (
+      <HomeArticle
       article={userBasedRecommendedArticles}
       heading={heading}
       subheading={subheading}
       isLoading={isLoading}
       type="userBasedArticles"
-    />
+      />
+      )}
+    </>
   );
 };
 

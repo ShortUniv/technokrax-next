@@ -1,3 +1,4 @@
+'use client'
 import { Line, Bar } from "react-chartjs-2";
 import { Chart, registerables } from "chart.js";
 import { CategoryScale } from "chart.js";

@@ -116,13 +116,14 @@ const Notes = ({
         <p className="text-[13px] text-[#242424]">Learn More</p>
       </div>
       <div className="flex gap-2 px-4 py-2">
-        <button>
-          <Avatar
+        <button className="w-[30px] h-[30px] bg-purple-700 rounded-full mt-[2px] text-white text-[20px] flex items-center justify-center">
+        {user.user.name.charAt(0).toUpperCase()}
+          {/* <Avatar
             sx={{ width: 32, height: 32 }}
             src={user.user.name.charAt(0)}
             alt={user.user.name.charAt(0).toUpperCase()}
             style={{ backgroundColor: "purple" }}
-          />
+          /> */}
         </button>
         <p className="text-[14px] text-[#242424] py-1">{user?.user.name}</p>
       </div>

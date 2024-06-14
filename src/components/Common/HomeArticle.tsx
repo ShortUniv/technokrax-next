@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import ThumbUpOutlinedIcon from "@mui/icons-material/ThumbUpOutlined";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
 import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
@@ -7,14 +7,11 @@ import ArrowBackIosOutlinedIcon from "@mui/icons-material/ArrowBackIosOutlined";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import TrendingArticlesSkeleton from "./TrendingArticlesSkeleton";
-import {  useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { getSliderArticles } from "../../actions/HomePage";
-
 
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
-
-
 
 interface User {
   user: {
@@ -22,9 +19,14 @@ interface User {
   };
 }
 
-
-const HomeArticle = ({ article, isLoading, heading, subheading ,type}: any) => {
-    const router = useRouter();
+const HomeArticle = ({
+  article,
+  isLoading,
+  heading,
+  subheading,
+  type,
+}: any) => {
+  const router = useRouter();
 
   const dispatch = useDispatch();
   const [active, setActive] = useState<any>("articles");
@@ -33,6 +35,7 @@ const HomeArticle = ({ article, isLoading, heading, subheading ,type}: any) => {
   const [isVertical, setIsVertical] = useState(false);
   const [itemHeight, setItemHeight] = useState(0);
   const [user, setUser] = useState<User | null>(null);
+  const [isBeingFetched, setIsBeingFetched] = useState<any>(false);
 
   useEffect(() => {
     const profile = localStorage.getItem("profile");
@@ -40,7 +43,6 @@ const HomeArticle = ({ article, isLoading, heading, subheading ,type}: any) => {
       setUser(JSON.parse(profile));
     }
   }, []);
-
 
   const handleOpenArticle = (tagId: any) => {
     router.push(`/articles/${tagId}`);
@@ -66,19 +68,28 @@ const HomeArticle = ({ article, isLoading, heading, subheading ,type}: any) => {
 
   const handleNextSlide = async () => {
     if (currentSlide + itemsPerPage < article.length - 1) {
-    setCurrentSlide((prev) =>
-      Math.min(prev + 1, article.length - itemsPerPage)
-    );
-  }
-  else{
-    await dispatch<any>(getSliderArticles({skipCount:article?.length,type:type,userId:user?.user?.userId}))
-    setCurrentSlide((prev) =>
-      Math.min(prev + 1, article.length - itemsPerPage)
-    );
-  }
-  };
+      setCurrentSlide((prev) =>
+        Math.min(prev + 1, article.length - itemsPerPage)
+      );
+    } else {
+      // if(!isLoading){
 
-  
+      await dispatch<any>(
+        getSliderArticles(
+          {
+            skipCount: article?.length,
+            type: type,
+            userId: user?.user?.userId,
+          },
+          setIsBeingFetched
+        )
+      );
+      setCurrentSlide((prev) =>
+        Math.min(prev + 1, article.length - itemsPerPage)
+      );
+    }
+    // }
+  };
 
   const handlePrevSlide = () => {
     setCurrentSlide((prev) => Math.max(prev - 1, 0));
@@ -123,19 +134,29 @@ const HomeArticle = ({ article, isLoading, heading, subheading ,type}: any) => {
       </p>
       <div className="flex gap-20 xs:gap-12 sm:gap-28 text-[20px] sm:text-[28px] font-normal mb-10">
         <a
-          className={`cursor-pointer ${active === "videos" ? "text-blue-500 border-b-2 border-blue-500" : ""}`}
+          className={`cursor-pointer ${
+            active === "videos"
+              ? "text-blue-500 border-b-2 border-blue-500"
+              : ""
+          }`}
           onClick={() => setActive("videos")}
         >
           Videos
         </a>
         <a
-          className={`cursor-pointer ${active === "articles" ? "text-blue-500 border-b-2 border-blue-500" : ""}`}
+          className={`cursor-pointer ${
+            active === "articles"
+              ? "text-blue-500 border-b-2 border-blue-500"
+              : ""
+          }`}
           onClick={() => setActive("articles")}
         >
           Articles
         </a>
         <a
-          className={`cursor-pointer ${active === "news" ? "text-blue-500 border-b-2 border-blue-500" : ""}`}
+          className={`cursor-pointer ${
+            active === "news" ? "text-blue-500 border-b-2 border-blue-500" : ""
+          }`}
           onClick={() => setActive("news")}
         >
           News
@@ -143,7 +164,9 @@ const HomeArticle = ({ article, isLoading, heading, subheading ,type}: any) => {
       </div>
       <div className="relative w-full overflow-hidden">
         <div
-          className={`flex transition-transform   duration-500 ${isVertical ? "flex-col" : ""}`}
+          className={`flex transition-transform   duration-500 ${
+            isVertical ? "flex-col" : ""
+          }`}
           style={{
             transform: isVertical
               ? `translateY(-${currentSlide * itemHeight}px)`
@@ -171,11 +194,15 @@ const HomeArticle = ({ article, isLoading, heading, subheading ,type}: any) => {
                   <div
                     key={index}
                     onClick={() => handleOpenArticle(data?.tagId)}
-                    className={`cursor-pointer flex-shrink-0 flex-grow sm:px-2 px-4 py-6 ${window.innerWidth > 450 && window.innerWidth <= 640 ? "px-[16%] " : ""}`}
+                    className={`cursor-pointer flex-shrink-0 flex-grow sm:px-2 px-4 py-6 ${
+                      window.innerWidth > 450 && window.innerWidth <= 640
+                        ? "px-[16%] "
+                        : ""
+                    }`}
                     style={{ flex: `0 0 calc((100% - 7%) / ${itemsPerPage})` }}
                   >
                     <img
-                      src={data?.imgUrl}
+                      src={data?.imgUrl || "hii"}
                       alt="img"
                       className="rounded-[20px] h-[232px] w-full "
                     />
@@ -187,7 +214,9 @@ const HomeArticle = ({ article, isLoading, heading, subheading ,type}: any) => {
                         <ThumbUpOutlinedIcon />
                         <p className="text-[10px] font-medium pt-1">
                           Likes{" "}
-                          {formatLikesCount(Math.floor(data?.likes?.low)) || <Skeleton />}
+                          {formatLikesCount(Math.floor(data?.likes?.low)) || (
+                            <Skeleton />
+                          )}
                         </p>
                       </div>
                       <div className="flex">
@@ -223,7 +252,9 @@ const HomeArticle = ({ article, isLoading, heading, subheading ,type}: any) => {
         <button
           onClick={handleNextSlide}
           className="w-[80px] h-[80px] bg-[#FAFAFA] rounded-full"
-          disabled={currentSlide === article.length - itemsPerPage}
+          disabled={
+            isBeingFetched || currentSlide === article.length - itemsPerPage
+          }
         >
           <ArrowForwardIosOutlinedIcon />
         </button>

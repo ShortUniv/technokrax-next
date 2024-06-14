@@ -1,3 +1,4 @@
+'use client'
 import { NewsOfTheDayCardData } from "../constants/sampleData";
 import Image from "next/image";
 

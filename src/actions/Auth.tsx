@@ -1,5 +1,6 @@
 import * as api from "../api/index";
 import { toast } from "react-hot-toast";
+import { setCookie } from 'nookies';
 
 export const signin =
   (formData: any, router: any) => async (dispatch: any) => {
@@ -11,6 +12,16 @@ export const signin =
       if (!data.success) {
         throw new Error(data.message);
       }
+     
+
+      const user = data.result;
+
+      // Set user data in a cookie named 'userToken'
+      setCookie(null, 'userToken', JSON.stringify(user), {
+        maxAge: 3600 * 24 * 7, // One week expiry
+        path: '/',
+      });
+
 
       dispatch({ type: "AUTH", payload: data.result });
       toast.success("Login was Successful");

@@ -1,4 +1,6 @@
 //@ts-nocheck
+'use client'
+
 import { useState } from "react";
 import AvatarEditor from "react-avatar-editor";
 import CloseIcon from "@mui/icons-material/Close";

@@ -3,9 +3,39 @@ import RobotImage from "../..//assets/RobotImgNew.png";
 // import HomePageEllipse from "../../assets/HomePageEllipse.png";
  import HomePageEllipse from "../../assets/HomeEllipseHero.png";
  import Image from "next/image";
+ import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { getTrendingArticles, getForYouArticles } from "@/actions/HomePage";
 
+
+interface User {
+  user: {
+    userId: string;
+    // add other properties if needed
+  };
+}
 
 const HeroSection = () => {
+
+
+  const dispatch = useDispatch();
+  const [user, setUser] = useState<User | null>(null);
+
+  useEffect(() => {
+    const profile = localStorage.getItem("profile");
+    if (profile) {
+      setUser(JSON.parse(profile));
+    }
+  }, []);
+
+  useEffect(() => {
+    dispatch<any>(getTrendingArticles({ skipCount: 0 }));
+    if (user?.user?.userId) {
+      dispatch<any>(
+        getForYouArticles({ userId: user?.user?.userId, skipCount: 0 })
+      );
+    }
+  }, [dispatch, user]);
   return (
     <div className="relative z-10 bg-[#FFFFFF] w-full  overflow-hidden h-auto ">
       <Image

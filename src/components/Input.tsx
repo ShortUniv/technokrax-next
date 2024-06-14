@@ -1,3 +1,4 @@
+'use client'
 import React, { ChangeEvent } from "react";
 import { TextField, Grid, InputAdornment, IconButton } from "@mui/material";
 
