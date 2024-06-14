@@ -10,7 +10,7 @@ export const metadata: Metadata = {
     description: "Create and share your own articles on Technokrax. Share your knowledge and insights with a community of learners.",
     images: [
       {
-        url: "https://i.postimg.cc/hjqL2PPn/Logo.png",
+        url: "https://i.ibb.co/Pmm6Mkx/Header-Logo.png",
         width: 800,
         height: 600,
         alt: 'Technokrax Writing',

@@ -25,7 +25,7 @@ export const metadata: Metadata = {
     description: "Learning is fun when you learn the right way. Our platform combines AI-driven personalization to ensure that every learning journey is both fun and uniquely tailored to meet individual needs and preferences. So join us in revolutionizing the way we learn.",
     images: [
       {
-        url: "https://i.postimg.cc/hjqL2PPn/Logo.png",
+        url: "https://i.ibb.co/Pmm6Mkx/Header-Logo.png",
         width: 800,
         height: 600,
         alt: 'Technokrax.img',

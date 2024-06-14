@@ -18,7 +18,7 @@ export const metadata: Metadata = {
     description: "View and manage your profile on Technokrax. Track your achievements, certificates, communities, learning progress, study statistics, and content.",
     images: [
       {
-        url: "https://i.postimg.cc/hjqL2PPn/Logo.png",
+        url: "https://i.ibb.co/Pmm6Mkx/Header-Logo.png",
         width: 800,
         height: 600,
         alt: 'Technokrax Profile',

@@ -9,7 +9,7 @@ export const metadata: Metadata = {
     description: "Create your Technokrax account to access personalized learning experiences and AI-driven educational content.",
     images: [
       {
-        url: "https://i.postimg.cc/hjqL2PPn/Logo.png",
+        url: "https://i.ibb.co/Pmm6Mkx/Header-Logo.png",
         width: 800,
         height: 600,
         alt: 'Technokrax Sign Up',
