@@ -2,7 +2,7 @@ import * as api from "../api/index";
 import { toast } from "react-hot-toast";
 
 export const setUserPreferences =
-  (preferences: any, navigate: any) => async () => {
+  (preferences: any, router: any) => async () => {
     const toastId = toast.loading("Loading...");
 
     try {
@@ -14,7 +14,7 @@ export const setUserPreferences =
       }
 
       toast.success("Preferences set successfully!");
-      navigate("/");
+      router.push("/");
     } catch (error) {
       console.log("SET PREFERENCES ERROR............", error);
       toast.error("Could Not Set Preferences");

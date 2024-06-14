@@ -69,7 +69,7 @@ export const setSignUpData = (FormData: any) => async (dispatch: any) => {
   }
 };
 
-export const sendOtp = (email: any, navigate: any) => async (dispatch: any) => {
+export const sendOtp = (email: any, router: any) => async (dispatch: any) => {
   const toastId = toast.loading("Loading...");
   try {
     dispatch({ type: "START_LOADING" });
@@ -82,7 +82,7 @@ export const sendOtp = (email: any, navigate: any) => async (dispatch: any) => {
     }
 
     toast.success("OTP Sent Successfully");
-    navigate("/verify-email");
+    router.push("/verify-email");
     dispatch({ type: "END_LOADING" });
   } catch (error) {
     console.log("SENDOTP API ERROR............", error);
@@ -114,7 +114,7 @@ export const getPasswordResetToken =
   };
 
 export const resetPassword =
-  (UpdatePasswordData: any, navigate: any) => async (dispatch: any) => {
+  (UpdatePasswordData: any, router: any) => async (dispatch: any) => {
     dispatch({ type: "AUTH_START_LOADING" });
     try {
       const { data } = await api.resetPasswordApi(UpdatePasswordData);
@@ -123,7 +123,7 @@ export const resetPassword =
         throw new Error(data.message);
       }
       toast.success("Password has been reset successfully");
-      navigate("/signin");
+      router.push("/signin");
     } catch (error) {
       console.log("RESET PASSWORD TOKEN Error", error);
       toast.error("Unable to reset password");

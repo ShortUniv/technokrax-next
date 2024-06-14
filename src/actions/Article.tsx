@@ -4,19 +4,27 @@ export const saveHighlights = (highlightData: any) => async () => {
   try {
     const { data } = await api.saveHighlightsApi(highlightData);
     console.log(data);
-  } catch (error) {}
+  } catch (error) {
+    console.log(error);
+  }
 };
 export const saveNotes = (noteData: any) => async () => {
   try {
     const { data } = await api.saveNotesApi(noteData);
     console.log(data);
-  } catch (error) {}
+  } catch (error) {
+    console.log(error);
+
+  }
 };
 
 export const activeInteractionTime = (interactionTimeData: any) => async () => {
   try {
     await api.activeInteractionTimeApi(interactionTimeData);
-  } catch (error) {}
+  } catch (error) {
+    console.log(error);
+
+  }
 };
 
 export const likeArticle = (id: any) => async () => {
