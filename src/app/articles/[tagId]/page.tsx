@@ -4,14 +4,8 @@ import ArticleDetails from "@/components/ArticleDetails";
 import { getArticleById } from "@/actions/HomePage";
 import { cookies } from "next/headers";
 
-type ArticleDetailsPageProps = {
-  params: {
-    tagId: string;
-  };
-  article: any; 
-};
 
-export const generateMetadata = async ({ params }: ArticleDetailsPageProps) => {
+export const generateMetadata = async ({ params }: any) => {
   const { tagId } = params;
   const cookieStore = cookies();
   const userTokenCookie = cookieStore.get("userToken");
