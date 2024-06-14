@@ -1,16 +1,17 @@
 import * as api from "../api/index";
 import { toast } from "react-hot-toast";
 
-export const getTrendingArticles = (skipCount:any) => async (dispatch: any) => {
-  try {
-    dispatch({ type: "START_LOADING" });
-    const { data } = await api.getTrendingArticlesApi(skipCount);
-    dispatch({ type: "FETCH_TRENDING_ARTICLES", payload: data });
-    dispatch({ type: "END_LOADING" });
-  } catch (error) {
-    console.log(error);
-  }
-};
+export const getTrendingArticles =
+  (skipCount: any) => async (dispatch: any) => {
+    try {
+      dispatch({ type: "START_LOADING" });
+      const { data } = await api.getTrendingArticlesApi(skipCount);
+      dispatch({ type: "FETCH_TRENDING_ARTICLES", payload: data });
+      dispatch({ type: "END_LOADING" });
+    } catch (error) {
+      console.log(error);
+    }
+  };
 export const getForYouArticles = (userId: any) => async (dispatch: any) => {
   try {
     dispatch({ type: "START_LOADING" });
@@ -23,8 +24,8 @@ export const getForYouArticles = (userId: any) => async (dispatch: any) => {
   }
 };
 export const getSliderArticles =
-  (articleSliderData: any,setIsBeingFetched:any) => async (dispatch: any) => {
-  setIsBeingFetched(true);
+  (articleSliderData: any, setIsBeingFetched: any) => async (dispatch: any) => {
+    setIsBeingFetched(true);
     try {
       // dispatch({ type: "START_LOADING" });
       const { data } = await api.getSliderArticlesApi(articleSliderData);
@@ -33,25 +34,21 @@ export const getSliderArticles =
           type: "UPDATE_FOR_YOU_ARTICLES_STATE",
           payload: data.result,
         });
-        
-      } 
-      else if(data.type === "trendingArticles"){
+      } else if (data.type === "trendingArticles") {
         dispatch({
           type: "UPDATE_TRENDING_ARTICLE_STATE",
           payload: data.result,
         });
-      }
-      else if(data.type === "userBasedArticles"){
+      } else if (data.type === "userBasedArticles") {
         dispatch({
           type: "UPDATE_USER_BASED_ARTICLE_STATE",
           payload: data.result,
         });
-      }
-      else {
+      } else {
         console.log("Invalid type");
       }
 
-      setIsBeingFetched(false)
+      setIsBeingFetched(false);
       // dispatch({ type: "END_LOADING" });
     } catch (error) {
       console.log(error);
@@ -62,8 +59,7 @@ export const getArticleByIds =
     try {
       dispatch({ type: "START_LOADING" });
       const { data } = await api.getArticleByIdApi(tagId, userId);
-      console.log("data:",data.result)
-      
+
       dispatch({ type: "FETCH_ARTICLE_BY_ID", payload: data.result });
       dispatch({ type: "END_LOADING" });
       return data.result;
@@ -72,23 +68,18 @@ export const getArticleByIds =
     }
   };
 
+export const getArticleById = async (
+  tagId: string | undefined,
+  userId: string
+) => {
+  try {
+    const { data } = await api.getArticleByIdApi(tagId, userId);
 
-export const getArticleById = async(tagId: string | undefined, userId: string)   => {
-    try {
-      // dispatch({ type: "START_LOADING" });
-      const { data } = await api.getArticleByIdApi(tagId, userId);
-      // dispatch({ type: "FETCH_ARTICLE_BY_ID", payload: data.result });
-      // dispatch({ type: "END_LOADING" });
-      // console.log("data:",data.result)
-      return data.result;
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-
-
-
+    return data.result;
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 export const createArticle =
   (content: any, router: any) => async (dispatch: any) => {
