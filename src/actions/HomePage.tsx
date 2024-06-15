@@ -109,3 +109,26 @@ export const getToken = () => async () => {
     console.log(error);
   }
 };
+
+
+//will look later 
+
+export const referArticle = (content: any) => async (dispatch: any) => {
+  try {
+    const { data } = await api.referArticleApi(content);
+    console.log(data);
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const getarticle = (category: any) => async (dispatch: any) => {
+  try {
+    console.log("1.2");
+    const { data } = await api.getArticleApi(`${category}`);
+    console.log("1.2");
+    console.log(data);
+  } catch (err) {
+    console.log(err);
+  }
+};

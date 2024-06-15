@@ -125,13 +125,13 @@ const handleLogout = () => {
                     Home
                   </a>
                   <a
-                    href="#"
+                    href="/learn"
                     className="text-[#242831] hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-semibold"
                   >
                     Learn
                   </a>
                   <a
-                    href="#"
+                    href="/news"
                     className="text-[#242831] hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-semibold"
                   >
                     News
@@ -149,7 +149,7 @@ const handleLogout = () => {
                     Community
                   </a>
                   <a
-                    href="#"
+                    href="/about-us"
                     className="text-[#242831] hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-semibold md:text-wrap"
                   >
                     About Us
@@ -172,8 +172,8 @@ const handleLogout = () => {
               </div>
             ) : (
               <div className="lg:flex hidden gap-6 w-[30%] lg:max-xl:gap-2">
-                <div className="flex gap-6 items-center lg:max-xl:gap-2">
-                  <Tooltip title="Write Article">
+                <div className="flex relative gap-6 group items-center lg:max-xl:gap-2">
+                  {/* <Tooltip title="Write Article">
                     <Link href="/write">
                       <button className="flex">
                         <AddCircleIcon
@@ -182,8 +182,34 @@ const handleLogout = () => {
                           style={{ fontSize: "45px" }}
                         />
                       </button>
+                    </Link> 
+                  </Tooltip> */}
+                     <div>
+                    <button className="flex">
+                      <AddCircleIcon
+                        fontSize="large"
+                        className="text-gray-500 font-light"
+                        style={{ fontSize: "45px" }}
+                      />
+                    </button>
+                  </div>
+                  <div className="absolute z-40 text-wrap flex-col gap-2 top-11 right-4 w-fit h-fit hidden group-hover:flex items-center justify-center p-2 bg-gray-200 rounded-md shadow-lg md:text-nowrap ">
+                    <Link
+                      className=" p-2 hover:bg-gray-700 rounded-lg hover:text-white "
+                      href="/write"
+                    >
+                      Write Article
                     </Link>
-                  </Tooltip>
+                    <Link
+                      className=" p-2 hover:bg-gray-700 rounded-lg hover:text-white "
+                      href="/refer"
+                    >
+                      Refer Article
+                    </Link>
+                  </div>
+
+
+
                   <div className="relative">
                     <Tooltip title="notifications">
                       <button

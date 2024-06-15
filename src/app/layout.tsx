@@ -15,6 +15,7 @@ import { createStore, applyMiddleware, compose } from "redux";
 import { thunk } from "redux-thunk";
 import reducers from "../components/store";
 import { Toaster } from "react-hot-toast";
+import { NavbarComponent } from "@/components/Navbar";
 
 const inter = Inter({ subsets: ["latin"] });
 const alegreya = Alegreya({ subsets: ["latin"], weight: ["400", "700"] });
@@ -59,6 +60,7 @@ export default function RootLayout({
         className={`${inter.className} ${alegreya.className} ${arefRuqaa.className} ${quintessential.className} ${petrona.className}`}
       >
         <Provider store={store}>
+
           {children}
           <Toaster />
         </Provider>

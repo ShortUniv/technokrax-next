@@ -15,6 +15,7 @@ import UserBasedRecommendation from "@/components/UserBasedRecommendation";
 import NewsOfTheDay from "@/components/NewsOfTheDay";
 import Head from "next/head";
 import { Metadata } from "next";
+import Chattop from "@/components/ChatModel/Chattop";
 
 
 export const metadata: Metadata = {

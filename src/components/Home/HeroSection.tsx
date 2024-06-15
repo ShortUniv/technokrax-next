@@ -6,6 +6,7 @@ import RobotImage from "../..//assets/RobotImgNew.png";
  import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { getTrendingArticles, getForYouArticles } from "@/actions/HomePage";
+import Chattop from "../ChatModel/Chattop";
 
 
 interface User {
@@ -17,7 +18,8 @@ interface User {
 
 const HeroSection = () => {
 
-
+  const [chatText, setChatText] = useState("");
+  const [chatOpen, setChatOpen] = useState(false);
   const dispatch = useDispatch();
   const [user, setUser] = useState<User | null>(null);
 
@@ -37,6 +39,14 @@ const HeroSection = () => {
     }
   }, [dispatch, user]);
   return (
+    <>
+       <Chattop
+        text={chatText}
+        setChatText={setChatText}
+        chatOpen={chatOpen}
+        setChatOpen={setChatOpen}
+        articleTitle="Default Article Title" // Provide a default or dummy title
+      />
     <div className="relative z-10 bg-[#FFFFFF] w-full  overflow-hidden h-auto ">
       <Image
         src={HomePageEllipse}
@@ -68,6 +78,7 @@ const HeroSection = () => {
         // className="absolute top-16 right-[00px] w-[606px] h-[568px] max-w-full sm:max-lg:left-[-120px] lg:max-xl:left-[450px] sm:mx-52" />
         className="absolute  sm:block top-16  right-10 sm:w-[606px] sm:h-[568px] z-20" />
     </div>
+        </>
   );
 };
 

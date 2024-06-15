@@ -53,3 +53,12 @@ export const likeArticleApi = (id: any) =>
   API.put(`api/articles/likeArticle`, id);
 export const saveCommentApi = (comment: any) =>
   API.post(`api/articles/saveComment`, comment);
+
+//will look later 
+
+export const referArticleApi = (content: any) =>
+  API.post("/api/articles/createrefer", content);
+export const getArticleApi = (category: string) =>
+  API.get(`/api/articles/getnews/${category}`);
+export const getreferarticle = (page:any,limit:any) => API.get(`/api/articles/getreferarticle?page=${page}&limit=${limit}`);
+export const getAllarticle = (page:any,limit:any) => API.get(`/api/articles/getallarticle?page=${page}&limit=${limit}`);
