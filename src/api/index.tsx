@@ -1,8 +1,8 @@
 import axios from "axios";
 
 const API = axios.create({
-   baseURL: "https://kpp1td2yze.execute-api.us-west-2.amazonaws.com/dev/nodejs-aws-lambda/server"
-  // baseURL: "http://localhost:5001/nodejs-aws-lambda/server"
+  //  baseURL: "https://kpp1td2yze.execute-api.us-west-2.amazonaws.com/dev/nodejs-aws-lambda/server"
+  baseURL: "http://localhost:5001/nodejs-aws-lambda/server"
 });
 
 API.interceptors.request.use((req) => {

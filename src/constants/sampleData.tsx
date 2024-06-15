@@ -140,7 +140,7 @@ export const navLinks = [
 
 export const UserProfileOptions = [
     {
-        id: "page",
+        id: "write",
         title: "Write Article",
     },
     {

@@ -1,4 +1,5 @@
 import alterimg from "../assets/AlterImg.svg";
+import Image from "next/image";
 const Slides = ({ chunk, handlepopup, setContent }: any) => {
   const concatenateTitles = (title1: string, limit: number) => {
     if (title1?.length > limit) return title1.slice(0, limit) + "...";
@@ -18,7 +19,9 @@ const Slides = ({ chunk, handlepopup, setContent }: any) => {
             handleclick(chunk[0]?.link);
           }}
         >
-          <img
+          <Image
+          width={500}
+          height={500}
             className=" object-contain max-w-full sm:h-[360px]   rounded-md   "
             src={
               chunk[0].image
@@ -41,7 +44,9 @@ const Slides = ({ chunk, handlepopup, setContent }: any) => {
           }}
           className=" flex flex-col sm:w-[305px] w-full   sm:h-[360px] 0 shadow-lg hover:shadow-2xl hover:shadow-[#96a0f3c9] transition-shadow rounded-lg"
         >
-          <img
+          <Image
+          width={500}
+          height={500}
             className="object-contain max-w-full sm:max-h-[230px] bg-black rounded-t-md  "
             src={
               chunk[1].image
@@ -62,7 +67,9 @@ const Slides = ({ chunk, handlepopup, setContent }: any) => {
           }}
           className=" flex flex-col sm:w-[305px]   w-full sm:h-[360px] 0 shadow-lg hover:shadow-2xl hover:shadow-[#96a0f3c9] transition-shadow rounded-lg"
         >
-          <img
+          <Image
+          width={500}
+          height={500}
             className="object-contain max-w-full sm:max-h-[230px] bg-black  rounded-t-md  "
             src={
               chunk[2].image
