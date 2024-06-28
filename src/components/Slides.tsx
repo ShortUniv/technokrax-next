@@ -18,7 +18,7 @@ const Slides = ({ chunk, handlepopup, content, setContent }: any) => {
     const fetchFinalImageUrl = async () => {
       try {
         const response = await fetch(
-          `http://localhost:5001/nodejs-aws-lambda/server/proxy?url=${encodeURIComponent(chunk?.image)}`
+          `https://kpp1td2yze.execute-api.us-west-2.amazonaws.com/dev/nodejs-aws-lambda/server/proxy?url=${encodeURIComponent(chunk?.image)}`
         );
         const data = await response.json();
         setImageUrl(data.finalUrl);
