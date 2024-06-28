@@ -1,3 +1,4 @@
+'use client'
 import React from "react";
 import { GrNext } from "react-icons/gr";
 import { GrPrevious } from "react-icons/gr";

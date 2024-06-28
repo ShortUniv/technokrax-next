@@ -18,7 +18,13 @@ const Refer = () => {
   const [link, setLink] = useState<any>("");
   const [subtext, setSubtext] = useState("");
   const [selectedCategory, setSelectedCategory] = React.useState("");
-  const user = JSON.parse(localStorage.getItem("profile")!);
+  const [user, setUser] = useState<any>(null);
+  useEffect(() => {
+    const profile = localStorage.getItem("profile");
+    if (profile) {
+      setUser(JSON.parse(profile));
+    }
+  }, []);
   const [errors, setErrors] = useState("");
   const handleUploadClick = () => {
     fileInputRef.current?.click();
