@@ -22,7 +22,9 @@ const Slides = ({ chunk, handlepopup, content, setContent }: any) => {
         );
         const data = await response.json();
         setImageUrl(data.finalUrl);
-      } catch (error) {
+      } catch (error) {                           
+
+        
         console.error("Error fetching final image URL:", error);
       }
     };
