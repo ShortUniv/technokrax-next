@@ -32,36 +32,50 @@ const Awards = () => {
           src="https://i.postimg.cc/Kvgcwqp0/trophy.png"
           alt=""
           className="w-[100px] h-[100px]"
+          width='100'
+          height='100'
         />
         <Image
           src="https://i.postimg.cc/Kvgcwqp0/trophy.png"
           alt=""
           className="w-[100px] h-[100px]"
+           width='100'
+          height='100'
         />
         <Image
           src="https://i.postimg.cc/Kvgcwqp0/trophy.png"
           alt=""
           className="w-[100px] h-[100px]"
+           width='100'
+          height='100'
         />
         <Image
           src="https://i.postimg.cc/Kvgcwqp0/trophy.png"
           alt=""
           className="w-[100px] h-[100px]"
+           width='100'
+          height='100'
         />
         <Image
           src="https://i.postimg.cc/Kvgcwqp0/trophy.png"
           alt=""
           className="w-[100px] h-[100px]"
+           width='100'
+          height='100'
         />
         <Image
           src="https://i.postimg.cc/Kvgcwqp0/trophy.png"
           alt=""
           className="w-[100px] h-[100px]"
+           width='100'
+          height='100'
         />
         <Image
           src="https://i.postimg.cc/Kvgcwqp0/trophy.png"
           alt=""
           className="w-[100px] h-[100px]"
+           width='100'
+          height='100'
         />
       </div>
 

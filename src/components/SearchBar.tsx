@@ -15,6 +15,7 @@ const SearchBar = ({ SearchBar }: any) => {
     recentResults: [],
     popularResults: [],
     categories: [],
+    users: []
   });
   const searchInputRef = useRef<any>(null);
 
@@ -27,7 +28,8 @@ const SearchBar = ({ SearchBar }: any) => {
   const fetchSuggestions = async (input: any) => {
     try {
       const response = await axios.get(
-        `https://kpp1td2yze.execute-api.us-west-2.amazonaws.com/dev/nodejs-aws-lambda/server/api/articles/suggestions?input=${input}`
+        // `https://kpp1td2yze.execute-api.us-west-2.amazonaws.com/dev/nodejs-aws-lambda/server/api/articles/suggestions?input=${input}`
+        `http://localhost:5001/nodejs-aws-lambda/server/api/articles/suggestions?input=${input}`
       );
 
       console.log("suggestions:", response.data);
@@ -133,6 +135,25 @@ const SearchBar = ({ SearchBar }: any) => {
                   <Link href={`/articles/${suggestion.tagId}`} key={index}>
                     <li className="px-4 py-2 text-sm cursor-pointer hover:bg-gray-100">
                       {highlightText(suggestion.title, searchInput)}
+                    </li>
+                  </Link>
+                )
+              )}
+            </ul>
+          )}
+          {suggestions.users.length > 0 && (
+            <ul className="py-2">
+              <li className="px-4 py-2 text-md text-gray-900 font-semibold">
+                <span className="pt-[2px]">People</span>
+                <span className="px-3 w-5 h-5">
+                  <LocalFireDepartmentIcon />
+                </span>
+              </li>
+              {suggestions.users.map(
+                (suggestion: any, index: number) => (
+                  <Link href={`/profile/${suggestion.userId}`} key={index}>
+                    <li className="px-4 py-2 text-sm cursor-pointer hover:bg-gray-100">
+                      {highlightText(suggestion.name, searchInput)}
                     </li>
                   </Link>
                 )

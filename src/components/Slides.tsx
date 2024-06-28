@@ -1,85 +1,89 @@
+
+
+'use client'
+import React, { useState, useEffect } from "react";
 import alterimg from "../assets/AlterImg.svg";
-import Image from "next/image";
-const Slides = ({ chunk, handlepopup, setContent }: any) => {
-  const concatenateTitles = (title1: string, limit: number) => {
-    if (title1?.length > limit) return title1.slice(0, limit) + "...";
-    return title1;
+
+const Slides = ({ chunk, handlepopup, content, setContent }: any) => {
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const [imageUrl, setImageUrl] = useState<string | null>(null);
+
+  useEffect(() => {
+    const handleResize = () => setWindowWidth(window.innerWidth);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  useEffect(() => {
+    const fetchFinalImageUrl = async () => {
+      try {
+        const response = await fetch(
+          `http://localhost:5001/nodejs-aws-lambda/server/proxy?url=${encodeURIComponent(chunk?.image)}`
+        );
+        const data = await response.json();
+        setImageUrl(data.finalUrl);
+      } catch (error) {
+        console.error("Error fetching final image URL:", error);
+      }
+    };
+
+    if (chunk?.image) {
+      fetchFinalImageUrl();
+    }
+  }, [chunk]);
+
+  const concatenateTitles = (title: any, limit: any) => {
+    if (title?.length > limit) return title.slice(0, limit) + "...";
+    return title;
   };
+
   const handleclick = (con: any) => {
     setContent(con);
     handlepopup();
   };
-  return (
-    <div className="flex gap-12 flex-wrap p-5 mt-12">
-      
-      {chunk[0] && (
-        <div
-          className="relative flex flex-col  sm:w-[640px] sm:h-[360px]   w-full justify-center content-center shadow-lg hover:shadow-2xl hover:shadow-[#96a0f3c9] transition-shadow  rounded-lg "
-          onClick={() => {
-            handleclick(chunk[0]?.link);
-          }}
-        >
-          <Image
-          width={500}
-          height={500}
-            className=" object-contain max-w-full sm:h-[360px]   rounded-md   "
-            src={
-              chunk[0].image
-                ? `https://kpp1td2yze.execute-api.us-west-2.amazonaws.com/dev/nodejs-aws-lambda/server/proxy?url=${encodeURIComponent(chunk[0]?.image)}`
-                : alterimg
-            }
-            alt="imghere"
-          />
-          <div className="absolute inset-0  opacity-60 bg-gradient-to-t from-gray-800 to-gray-950 hover:opacity-0 rounded-md"></div>
-          <div className="absolute max-[390px]:p-5 p-2 text-sm whitespace-nowrap overflow-hidden text-wrap shadow-lg max-[390px]:text-base  bottom-0 max-[390px]:bottom-4 left-4 text-gray-200 md:text-xl sm:text-lg">
-            {concatenateTitles(chunk[0]?.title, 190)}
-          </div>
-        </div>
-      )}
 
-      {chunk[1] && (
+  const shortDescriptionLimit =
+    windowWidth < 1024
+      ? 5000
+      : windowWidth < 1250
+      ? windowWidth < 1180
+        ? 160
+        : 250
+      : 300;
+
+  return (
+    <div className="flex justify-center gap-12 p-2 flex-wrap sm:m-5 mt-12 w-full">
+      {chunk && (
         <div
+          className="flex p-2 lg:pl-4 flex-col lg:flex-row items-center md:w-[70%] lg:w-full lg:h-[350px] gap-5  rounded-3xl bg-white cursor-pointer shadow-lg shadow-gray-400 hover:shadow-2xl hover:shadow-[#96a0f3c9] transition-shadow"
           onClick={() => {
-            handleclick(chunk[1]?.link);
+            handleclick({
+              link: chunk?.link,
+              longdes: chunk?.longdescription,
+            });
           }}
-          className=" flex flex-col sm:w-[305px] w-full   sm:h-[360px] 0 shadow-lg hover:shadow-2xl hover:shadow-[#96a0f3c9] transition-shadow rounded-lg"
         >
-          <Image
-          width={500}
-          height={500}
-            className="object-contain max-w-full sm:max-h-[230px] bg-black rounded-t-md  "
-            src={
-              chunk[1].image
-                ? `https://kpp1td2yze.execute-api.us-west-2.amazonaws.com/dev/nodejs-aws-lambda/server/proxy?url=${encodeURIComponent(chunk[1]?.image)}`
-                : alterimg
-            }
+          <img
+            className="max-w-full rounded-xl w-full lg:w-[60vh] lg:h-[310px] object-fill"
+            src={imageUrl || alterimg}
             alt="imghere"
           />
-          <div className="pt-7 pl-4 p-2">
-            {concatenateTitles(chunk[1]?.title, 90)}
-          </div>
-        </div>
-      )}
-      {chunk[2] && (
-        <div
-          onClick={() => {
-            handleclick(chunk[2]?.link);
-          }}
-          className=" flex flex-col sm:w-[305px]   w-full sm:h-[360px] 0 shadow-lg hover:shadow-2xl hover:shadow-[#96a0f3c9] transition-shadow rounded-lg"
-        >
-          <Image
-          width={500}
-          height={500}
-            className="object-contain max-w-full sm:max-h-[230px] bg-black  rounded-t-md  "
-            src={
-              chunk[2].image
-                ? `https://kpp1td2yze.execute-api.us-west-2.amazonaws.com/dev/nodejs-aws-lambda/server/proxy?url=${encodeURIComponent(chunk[2]?.image)}`
-                : alterimg
-            }
-            alt="imghere"
-          />
-          <div className="pt-7 pl-4 p-2">
-            {concatenateTitles(chunk[2]?.title, 90)}
+
+          <div className="self-start p-2 lg:w-full">
+            <div className="text-xl font-semibold">
+              {concatenateTitles(chunk?.title, 190)}
+              <br />
+            </div>
+            <div className="text-gray-500">news by {chunk.source}</div>
+            <div
+              className="text-lg text-gray-700 pt-2"
+              dangerouslySetInnerHTML={{
+                __html: concatenateTitles(
+                  chunk?.shortdescription,
+                  shortDescriptionLimit
+                ),
+              }}
+            />
           </div>
         </div>
       )}
@@ -88,4 +92,4 @@ const Slides = ({ chunk, handlepopup, setContent }: any) => {
 };
 
 export default Slides;
-0;
+

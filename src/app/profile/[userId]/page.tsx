@@ -9,6 +9,9 @@ import MyContent from "@/components/UserProfile/MyContent";
 import { NavbarComponent } from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Metadata } from 'next';
+import { cookies } from "next/headers";
+import PublicProfile from "@/components/UserProfile/PublicProfile";
+
 
 export const metadata: Metadata = {
   title: 'User Profile - Technokrax',
@@ -30,20 +33,42 @@ export const metadata: Metadata = {
   },
 };
 
-const Profile = () => {
+const Profile = ({params}:any) => {
+
+  let { userId } = params;
+
+  const cookieStore = cookies();
+  const userTokenCookie = cookieStore.get("userToken");
+  let userIdFromCookie = null;
+  if (userTokenCookie) {
+    try {
+      const userTokenValue = JSON.parse(userTokenCookie.value);
+      userIdFromCookie = userTokenValue.user?.userId || null;
+    } catch (e) {
+      console.error("Error parsing user token cookie:", e);
+    }
+  }
+
+  
   return (
     <>
-      <NavbarComponent />
-      <div className="mx-[5%]">
-        <UserDetails />
-        <Achievements />
-        <Certificates />
-        <MyCommunities />
-        <MyLearning />
-        <StudyStatistics />
-        <MyContent />
-      </div>
-      <Footer />
+      {userId === userIdFromCookie ? (
+        <>
+          <NavbarComponent />
+          <div className="mx-[5%]">
+            <UserDetails userId={userId}/>
+            <Achievements />
+            <Certificates />
+            <MyCommunities />
+            <MyLearning />
+            <StudyStatistics />
+            <MyContent />
+          </div>
+          <Footer />
+        </>
+      ):(
+    <PublicProfile userId={userId}/>
+      )}
     </>
   );
 };

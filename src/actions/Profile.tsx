@@ -38,8 +38,8 @@ export const saveProfileDetails =
   };
 
 export const getProfile = (userId: any) => async (dispatch: any) => {
-
   const { data } = await api.getProfileApi(userId);
+  console.log("profile:", data);
   if (!data.success) {
     throw new Error(data.message);
   }
@@ -58,4 +58,43 @@ export const saveProfileImage =
       console.log(error);
       toast.error("error updating profile image");
     }
+  };
+
+export const followUser =
+  (userData: any, setLoading: any, setFollowed: any) =>
+  async (dispatch: any) => {
+    try {
+      setLoading(true);
+      const { data } = await api.followUserApi(userData);
+      console.log(data);
+
+      if (!data.success) {
+        throw new Error(data.message);
+      }
+      setLoading(false);
+      setFollowed(true);
+      toast.success(
+        `You are now following ${data.result.otherUserProfile.userInfo.name}`
+      );
+    } catch (error) {
+      console.log("Error following user", error);
+      toast.error("Error following user");
+      setLoading(false);
+    }
+  };
+
+
+  export const unfollowUser = (userData:any, setFollowed:any) => async (dispatch:any) => {
+    const toastId = toast.loading("Loading...");
+    try {
+      const { data } = await api.unfollowUserApi(userData);
+      if (!data.success) {
+        throw new Error(data.message);
+      }
+      setFollowed(false);
+      toast.success(`You have unfollowed ${data.result.otherUserProfile.userInfo.name}`);
+    } catch (error) {
+      toast.error("Error unfollowing user");
+    }
+    toast.dismiss(toastId);
   };

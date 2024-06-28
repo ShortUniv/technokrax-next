@@ -4,7 +4,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { MuiChipsInput } from "mui-chips-input";
 import { MenuItem, Select } from "@mui/material";
 import { useDispatch } from "react-redux";
-import logo from "../assets/uploadimg.svg"
+import logo from "../assets/uploadimg.svg";
 import { referArticle } from "../actions/HomePage";
 import axios from "axios";
 import { NavbarComponent } from "./Navbar";
@@ -18,13 +18,7 @@ const Refer = () => {
   const [link, setLink] = useState<any>("");
   const [subtext, setSubtext] = useState("");
   const [selectedCategory, setSelectedCategory] = React.useState("");
-  const [user, setUser] = useState<any>(null);
-  useEffect(() => {
-    const profile = localStorage.getItem("profile");
-    if (profile) {
-      setUser(JSON.parse(profile));
-    }
-  }, []);
+  const user = JSON.parse(localStorage.getItem("profile")!);
   const [errors, setErrors] = useState("");
   const handleUploadClick = () => {
     fileInputRef.current?.click();
@@ -52,10 +46,12 @@ const Refer = () => {
       try {
         const imageUrl = await uploadToImgBB(file);
         if (imageUrl) {
+          // Update your articleData with the imageUrl
           setImage(imageUrl);
-          console.log("url:", imageUrl);
+          console.log("url:", imageUrl); // Log the imageUrl to verify
         }
       } catch (error) {
+        // Handle error appropriately, e.g., show error message to user
         console.error("Error uploading image:", error);
       }
     }
@@ -208,12 +204,16 @@ const Refer = () => {
                 </div>
               </>
             ) : (
-              <div className="relative" onClick={handleUploadClick}>
-      
-              <button className="absolute top-[80px] max-sm:text-xs left-[35%] border-2 border-black rounded-full p-2 pl-4 pr-4 shadow-lg hover:shadow-xl hover:shadow-slate-400">
-                Add Image
-              </button>
-            </div>
+              <div className="relative " onClick={handleUploadClick}>
+                <img
+                  src={logo}
+                  alt=""
+                  className="relative w-[330px] h-[150px] sm:w-[440px] sm:h-[200px]"
+                />
+                <button className="absolute bottom-[2%] max-sm:text-xs left-[35%] border-2 border-black rounded-full p-2 pl-4 pr-4 shadow-lg hover:shadow-xl hover:shadow-slate-400">
+                  Add Image
+                </button>
+              </div>
             )}
           </div>
           <input

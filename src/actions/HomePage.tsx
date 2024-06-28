@@ -1,3 +1,4 @@
+//@ts-nocheck
 import * as api from "../api/index";
 import { toast } from "react-hot-toast";
 
@@ -124,9 +125,7 @@ export const referArticle = (content: any) => async (dispatch: any) => {
 
 export const getarticle = (category: any) => async (dispatch: any) => {
   try {
-    console.log("1.2");
     const { data } = await api.getArticleApi(`${category}`);
-    console.log("1.2");
     console.log(data);
   } catch (err) {
     console.log(err);

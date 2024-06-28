@@ -143,7 +143,7 @@ const handleLogout = () => {
                     Tools
                   </a>
                   <a
-                    href="#"
+                    href="/community"
                     className="text-[#242831] hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-semibold"
                   >
                     Community
@@ -232,7 +232,7 @@ const handleLogout = () => {
                 </div>
                 <div className="flex lg:gap-6">
                   <Tooltip title="My Profile">
-                    <Link href="/profile">
+                    <Link href={`/profile/${user?.user?.userId}`}>
                     <button className="w-[40px] h-[40px] bg-purple-700 rounded-full mt-[2px] text-white text-[20px] flex items-center justify-center">
                     {user?.user?.name.charAt(0).toUpperCase()}
                     {/* <Avatar

@@ -55,12 +55,15 @@ export default function RootLayout({
           href="https://fonts.googleapis.com/css2?family=Quintessential&family=Petrona&display=swap"
           rel="stylesheet"
         />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap"
+          rel="stylesheet"
+        />
       </head>
       <body
         className={`${inter.className} ${alegreya.className} ${arefRuqaa.className} ${quintessential.className} ${petrona.className}`}
       >
         <Provider store={store}>
-
           {children}
           <Toaster />
         </Provider>

@@ -1,9 +1,10 @@
 //@ts-nocheck
 'use client'
+
 import React, { useEffect, useState } from "react";
 import { IoMdClose } from "react-icons/io";
 
-const Topup = ({ handlepopup, content }) => {
+const Topup = ({ handlepopup, content }:any) => {
   const [iframeError, setIframeError] = useState(false);
   const [adBlockDetected, setAdBlockDetected] = useState(false);
 

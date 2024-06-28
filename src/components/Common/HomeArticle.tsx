@@ -34,9 +34,9 @@ const HomeArticle = ({
   const [itemsPerPage, setItemsPerPage] = useState(4);
   const [isVertical, setIsVertical] = useState(false);
   const [itemHeight, setItemHeight] = useState(0);
-  const [user, setUser] = useState<User | null>(null);
   const [isBeingFetched, setIsBeingFetched] = useState<any>(false);
-
+  
+  const [user, setUser] = useState<User | null>(null);
   useEffect(() => {
     const profile = localStorage.getItem("profile");
     if (profile) {

@@ -1,12 +1,12 @@
-"use client";
+'use client'
 import React, { useState, useEffect } from "react";
 import { NavbarComponent } from "../Navbar";
 import Chattop from "../ChatModel/Chattop";
-
 import * as api from "@/api/index";
+import { useDispatch } from "react-redux";
 import Slides from "../Slides";
-import Topup from "../Topup";
 import Pagination from "../Pagination";
+import Topupnews from "../Topupnews";
 const chunkArray = (array: any, chunkSize: number) => {
   const chunks: any = [];
   for (let i = 0; i < array.length; i += chunkSize) {
@@ -26,19 +26,21 @@ interface Article {
   __v: number;
 }
 const News: React.FC = () => {
+  const dispatch = useDispatch();
   const [selectedCategory, setSelectedCategory] = useState<string>("latest");
   const [chatText, setChatText] = useState<string>("");
   const [chatOpen, setChatOpen] = useState<boolean>(false);
   const [openarticle, setOpenarticle] = useState<boolean>(false);
   const [articles, setArticles] = useState<Article[]>([]);
-  const [chunks, setChunks] = useState<Article[][]>([]);
-  const [content, setContent] = useState("");
+  // const [chunks, setChunks] = useState<Article[][]>([]);
+  const [content, setContent] = useState({});
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [totalPages, setTotalPages] = useState<number>(1);
   const categories: string[] = [
     "latest",
     "business",
-    "sport",
+    "artificial intelligence",
+    "robotics",
     "technology",
     "entertainment",
     "science",
@@ -51,15 +53,20 @@ const News: React.FC = () => {
     return category === selectedCategory ? selectedClasses : defaultClasses;
   };
 
+ 
   const getArticle = async () => {
     try {
-      const { data } = await api.getArticleApi(`${selectedCategory}`);
-      setArticles(data);
-      console.log(data);
-      setTotalPages(Math.ceil(data.length / 30));
-      setChunks(
-        chunkArray(data.slice((currentPage - 1) * 30, currentPage * 30), 3)
+      const { data } = await api.getArticleApi(
+        `${selectedCategory}`,
+        currentPage,
+        9
       );
+      console.log(data);
+      setArticles(data.articles);
+
+      console.log(data);
+      setTotalPages(Math.ceil(data.total / 9));
+   
       console.log("1.32323");
       console.log(data);
     } catch (err) {
@@ -71,8 +78,7 @@ const News: React.FC = () => {
     if (page < 1 || page > totalPages) return;
     window.scrollTo({ top: 0, behavior: "auto" });
     setCurrentPage(page);
-    setChunks(chunkArray(articles.slice((page - 1) * 30, page * 30), 3));
-    console.log(chunks);
+ 
     console.log(page);
   };
 
@@ -82,6 +88,9 @@ const News: React.FC = () => {
   useEffect(() => {
     getArticle();
   }, [selectedCategory]);
+  useEffect(() => {
+    getArticle();
+  }, [currentPage]);
   return (
     <>
       <NavbarComponent />
@@ -95,9 +104,7 @@ const News: React.FC = () => {
           {categories.map((category) => (
             <button
               key={category}
-              className={`text-xl cursor-pointer ${getCategoryClasses(
-                category
-              )}`}
+              className={`text-xl cursor-pointer ${getCategoryClasses(category)}`}
               onClick={() => setSelectedCategory(category)}
             >
               {category.slice(0, 1).toUpperCase() +
@@ -106,9 +113,9 @@ const News: React.FC = () => {
           ))}
         </div>
       </div>
-      <div className=" mt-10 rounded-lg  ">
-        {chunks &&
-          chunks.map((chunk, index) => (
+      <div className=" mt-10 flex flex-col lg:ml-20 lg:mr-20 items-center  rounded-lg xm:pl-10 xm:pr-10">
+        {articles &&
+          articles.map((chunk, index) => (
             <Slides
               chunk={chunk}
               key={index}
@@ -120,7 +127,7 @@ const News: React.FC = () => {
       </div>
       {openarticle && (
         <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-90 ">
-          <Topup
+          <Topupnews
             handlepopup={handlepopup}
             setOpenarticle={setOpenarticle}
             openarticle={openarticle}
@@ -140,7 +147,7 @@ const News: React.FC = () => {
         setChatText={setChatText}
         chatOpen={chatOpen}
         setChatOpen={setChatOpen}
-        articleTitle="Default Article Title" // Provide a default or dummy title
+        articleTitle="Default Article Title"
       />
     </>
   );

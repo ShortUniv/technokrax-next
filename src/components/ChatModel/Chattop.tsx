@@ -14,6 +14,7 @@ import logo from "../../assets/tut1.svg";
 const MODEL_NAME = "gemini-1.0-pro";
 const API_KEY = "AIzaSyBkYpKLn3WGDRQn63CXbFOZPIZ9_tfuL10";
 
+
 const Chattop = ({
   text,
   setChatText,
