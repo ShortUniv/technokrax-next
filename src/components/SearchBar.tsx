@@ -28,8 +28,8 @@ const SearchBar = ({ SearchBar }: any) => {
   const fetchSuggestions = async (input: any) => {
     try {
       const response = await axios.get(
-        // `https://kpp1td2yze.execute-api.us-west-2.amazonaws.com/dev/nodejs-aws-lambda/server/api/articles/suggestions?input=${input}`
-        `http://localhost:5001/nodejs-aws-lambda/server/api/articles/suggestions?input=${input}`
+        `https://kpp1td2yze.execute-api.us-west-2.amazonaws.com/dev/nodejs-aws-lambda/server/api/articles/suggestions?input=${input}`
+        // `http://localhost:5001/nodejs-aws-lambda/server/api/articles/suggestions?input=${input}`
       );
 
       console.log("suggestions:", response.data);
