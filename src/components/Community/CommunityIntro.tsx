@@ -1,21 +1,17 @@
-import React,{useEffect,useState
-} from "react";
+
+
+
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import EditIcon from "@mui/icons-material/Edit";
 import { joinCommunity } from "@/actions/Community";
 import { useDispatch } from "react-redux";
 import { CircularProgress } from "@mui/material";
 
-
-
 const CommunityIntro = ({ community }: any) => {
   const [user, setUser] = useState<any>(null);
-  const [joinedCommunities, setJoinedCommunities] = useState<{
-    [key: string]: boolean;
-  }>({});
-  const [loadingCommunities, setLoadingCommunities] = useState<{
-    [key: string]: boolean;
-  }>({})
+  const [joinedCommunities, setJoinedCommunities] = useState<{ [key: string]: boolean }>({});
+  const [loadingCommunities, setLoadingCommunities] = useState<{ [key: string]: boolean }>({});
 
   useEffect(() => {
     const profile = localStorage.getItem("profile");
@@ -52,9 +48,9 @@ const CommunityIntro = ({ community }: any) => {
 
   return (
     <>
-      {community?.map((data: any,index:any) => (
-        <div key={index} className="w-[1000px] mt-4">
-          <div className="relative w-[1000px] h-[250px]">
+      {community?.map((data: any, index: any) => (
+        <div key={index} className="w-full max-w-[1000px] mt-4">
+          <div className="relative w-full h-[200px] sm:h-[250px]">
             <Image
               src={data?.community?.communityImage}
               alt="image"
@@ -64,17 +60,15 @@ const CommunityIntro = ({ community }: any) => {
             />
           </div>
           <div className="flex justify-between mt-2">
-
-          <h2 className=" text-2xl font-semibold  font-sans">   {data?.community?.name}</h2>
-          <button className="hover:text-blue-500 transition-colors duration-300">
-            <EditIcon />
-          </button>
+            <h2 className="text-xl sm:text-2xl font-semibold font-sans">
+              {data?.community?.name}
+            </h2>
+            <button className="hover:text-blue-500 transition-colors duration-300">
+              <EditIcon />
+            </button>
           </div>
-       
-          <p className="text-gray-700 mt-3  font-sans">  {data?.community?.description}</p>
-        
-
-          <div className="flex justify-between items-center mt-6 xs:mt-12">
+          <p className="text-gray-700 mt-3 font-sans">{data?.community?.description}</p>
+          <div className="flex justify-between items-center mt-6 sm:mt-12">
             <div className="flex -space-x-2">
               {data?.community?.members?.slice(0, 3).map((member: any, index: any) => (
                 <img
@@ -92,33 +86,32 @@ const CommunityIntro = ({ community }: any) => {
               )}
             </div>
           </div>
-
           <div className="flex justify-between items-center mt-2">
-          <div className="flex gap-10">
-            <p className="font-sans">
-              <strong>{data?.community?.members?.length}</strong> Members
-            </p>
-            <p className="flex items-center gap-1 font-sans">
-              <span className=" flex h-2 w-2 mr-1">
-                <span className=" inline-flex h-full w-full rounded-full bg-green-500"></span>
-              </span>
-              <strong >{5}</strong> Online
-            </p>
-          </div>
+            <div className="flex gap-10">
+              <p className="font-sans">
+                <strong>{data?.community?.members?.length}</strong> Members
+              </p>
+              <p className="flex items-center gap-1 font-sans">
+                <span className="flex h-2 w-2 mr-1">
+                  <span className="inline-flex h-full w-full rounded-full bg-green-500"></span>
+                </span>
+                <strong>{5}</strong> Online
+              </p>
+            </div>
             <button
-                onClick={() => handleJoinCommunity(data?.community?.communityId)}
-              className="px-12 py-2 bg-blue-500 text-white rounded-lg flex justify-center items-center hover:bg-blue-600 transition-colors duration-300"
->
+              onClick={() => handleJoinCommunity(data?.community?.communityId)}
+              className="px-4 sm:px-8 py-2 bg-blue-500 text-white rounded-lg flex justify-center items-center hover:bg-blue-600 transition-colors duration-300"
+            >
               {joinedCommunities[data?.community?.communityId] ? (
-            <span>Joined</span>
-          ) : loadingCommunities[data?.community?.communityId] ? (
-            <>
-              <CircularProgress size={20} color="inherit" />
-              <span className="ml-2">Joining...</span>
-            </>
-          ) : (
-              <span>Join</span>
-              )} 
+                <span>Joined</span>
+              ) : loadingCommunities[data?.community?.communityId] ? (
+                <>
+                  <CircularProgress size={20} color="inherit" />
+                  <span className="ml-2">Joining...</span>
+                </>
+              ) : (
+                <span>Join</span>
+              )}
             </button>
           </div>
         </div>
@@ -128,3 +121,4 @@ const CommunityIntro = ({ community }: any) => {
 };
 
 export default CommunityIntro;
+

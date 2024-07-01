@@ -1,12 +1,15 @@
+
+
+
+
 "use client";
 import React, { useState, useEffect } from "react";
 import TiptapEditor from "./TiptapEditor";
 import { MuiChipsInput } from "mui-chips-input";
-import { UseDispatch, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { createCommunityDiscussion } from "@/actions/CommunityDiscussion";
 import Link from "next/link";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-
 import { FaCalendarAlt } from "react-icons/fa";
 import { BiUpvote, BiDownvote, BiCommentDetail } from "react-icons/bi";
 import { CircularProgress } from "@mui/material";
@@ -14,8 +17,8 @@ import { CircularProgress } from "@mui/material";
 const CommunityActivity = ({ community, loading }: any) => {
   const dispatch = useDispatch();
   const [isCreated, setIsCreated] = useState<any>(false);
-  
   const [user, setUser] = useState<any>(null);
+
   useEffect(() => {
     const profile = localStorage.getItem("profile");
     if (profile) {
@@ -29,9 +32,9 @@ const CommunityActivity = ({ community, loading }: any) => {
       setTags([]);
     }
   }, [isCreated]);
+
   const [active, setActive] = useState<any>("discussions");
   const [tags, setTags] = useState([]);
-
   const [newDiscussion, setNewDiscussion] = useState({
     title: "",
     content: "",
@@ -67,8 +70,8 @@ const CommunityActivity = ({ community, loading }: any) => {
   };
 
   return (
-    <div className="flex flex-col relative mb-32 w-[1000px]">
-      <div className="flex gap-20 xs:gap-12 sm:gap-28 text-[20px] sm:text-[28px] font-normal">
+    <div className="flex flex-col relative mb-32 w-full max-w-[1000px]">
+      <div className="flex gap-4 sm:gap-8 text-lg sm:text-xl md:text-2xl font-normal">
         <a
           className={`cursor-pointer ${
             active === "discussions"
@@ -101,27 +104,20 @@ const CommunityActivity = ({ community, loading }: any) => {
         </a>
       </div>
       <div className="absolute top-[42px] w-full h-[2px] bg-gray-300"></div>
-
       {active === "discussions" && (
         <div className="mt-8">
           <div className="mb-8">
-            <h3 className="text-lg font-semibold mb-4">
-              Start a New Discussion
-            </h3>
+            <h3 className="text-lg font-semibold mb-4">Start a New Discussion</h3>
             <input
               type="text"
               placeholder="Title"
               value={newDiscussion.title}
-              onChange={(e) =>
-                handleNewDiscussionChange("title", e.target.value)
-              }
+              onChange={(e) => handleNewDiscussionChange("title", e.target.value)}
               className="w-full p-2 border border-gray-300 rounded mb-4"
             />
             <TiptapEditor
               content={newDiscussion.content}
-              setContent={(value) =>
-                handleNewDiscussionChange("content", value)
-              }
+              setContent={(value) => handleNewDiscussionChange("content", value)}
             />
             <div className="">
               <MuiChipsInput
@@ -134,18 +130,16 @@ const CommunityActivity = ({ community, loading }: any) => {
             </div>
             <button
               onClick={handleStartDiscussion}
-              className="px-4 py-2 flex justify-center items-center  bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors duration-300 mt-4"
+              className="px-4 py-2 flex justify-center items-center bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors duration-300 mt-4"
             >
               {loading ? (
                 <>
                   <CircularProgress size={20} color="inherit" />
-
                   <span className="ml-2">Creating Discussion</span>
                 </>
               ) : isCreated ? (
                 <>
                   <CheckCircleIcon />
-
                   <span> Discussion Created</span>
                 </>
               ) : (
@@ -153,13 +147,12 @@ const CommunityActivity = ({ community, loading }: any) => {
               )}
             </button>
           </div>
-
           {community?.discussions.map((discussion: any) => (
             <Link
               href={`/community/${discussion?.communitySlug}/discussions/${discussion?.slug}`}
               key={discussion?.id}
             >
-              <div className="bg-white rounded-lg shadow-md p-6 mb-4 transition-transform transform hover:scale-105">
+              <div className="bg-white rounded-lg shadow-md p-4 sm:p-6 mb-4 transition-transform transform hover:scale-105">
                 <div className="flex items-center mb-2">
                   <img
                     src={discussion?.createdBy?.photo}
@@ -167,15 +160,13 @@ const CommunityActivity = ({ community, loading }: any) => {
                     className="w-10 h-10 rounded-full object-cover"
                   />
                   <div className="ml-2">
-                    <div className="font-semibold">
-                      {discussion?.createdBy?.name}
-                    </div>
+                    <div className="font-semibold">{discussion?.createdBy?.name}</div>
                     <div className="text-gray-500 text-sm">
                       {truncateText(discussion?.createdBy?.bio, 60)}
                     </div>
                   </div>
                 </div>
-                <div className="text-xl font-medium mb-2">
+                <div className="text-lg sm:text-xl font-medium mb-2">
                   {discussion?.title}
                 </div>
                 <div
@@ -189,10 +180,7 @@ const CommunityActivity = ({ community, loading }: any) => {
                   </div>
                   <div className="flex items-center space-x-4">
                     <div className="flex items-center">
-                      <BiUpvote
-                        className="mr-1  text-green-500 font-sans"
-                        size={25}
-                      />
+                      <BiUpvote className="mr-1 text-green-500 font-sans" size={25} />
                       {discussion?.upvotes?.length}
                     </div>
                     <div className="flex items-center">
@@ -214,3 +202,4 @@ const CommunityActivity = ({ community, loading }: any) => {
   );
 };
 export default CommunityActivity;
+
