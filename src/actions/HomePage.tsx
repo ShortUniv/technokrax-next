@@ -17,7 +17,7 @@ export const getForYouArticles = (userId: any) => async (dispatch: any) => {
   try {
     dispatch({ type: "START_LOADING" });
     const { data } = await api.getForYouArticlesApi(userId);
-
+   console.log("forYouUpdated:",data)
     dispatch({ type: "RECOMMEDED_HOME_PAGE_ARTICLES", payload: data.result });
     dispatch({ type: "END_LOADING" });
   } catch (error) {
@@ -30,6 +30,7 @@ export const getSliderArticles =
     try {
       // dispatch({ type: "START_LOADING" });
       const { data } = await api.getSliderArticlesApi(articleSliderData);
+      console.log("data",data)
       if (data.type === "forYouArticles") {
         dispatch({
           type: "UPDATE_FOR_YOU_ARTICLES_STATE",

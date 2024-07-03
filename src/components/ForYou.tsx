@@ -10,7 +10,7 @@ const ForYou = () => {
   const heading = "For You";
   const subheading =
     "See personalised videos, articles and blogs in the world of tech";
-  const { forYouRecommendedArticles, isLoading } = useSelector(
+  const { forYouRecommendedArticles, isLoading,secondQuerySkipCount } = useSelector(
     (state: any) => state?.recommendedArticles
   );
 
@@ -34,6 +34,7 @@ const ForYou = () => {
       heading={heading}
       subheading={subheading}
       isLoading={isLoading}
+      secondQuerySkipCount={secondQuerySkipCount}
       type="forYouArticles"
     />
     )}

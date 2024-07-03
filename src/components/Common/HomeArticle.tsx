@@ -25,6 +25,7 @@ const HomeArticle = ({
   heading,
   subheading,
   type,
+  secondQuerySkipCount
 }: any) => {
   const router = useRouter();
 
@@ -80,6 +81,7 @@ const HomeArticle = ({
             skipCount: article?.length,
             type: type,
             userId: user?.user?.userId,
+            secondQuerySkipCount:secondQuerySkipCount
           },
           setIsBeingFetched
         )
@@ -253,7 +255,7 @@ const HomeArticle = ({
           onClick={handleNextSlide}
           className="w-[80px] h-[80px] bg-[#FAFAFA] rounded-full"
           disabled={
-            isBeingFetched || currentSlide === article.length - itemsPerPage
+            isBeingFetched || currentSlide === article?.length - itemsPerPage
           }
         >
           <ArrowForwardIosOutlinedIcon />
