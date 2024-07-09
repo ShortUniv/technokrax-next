@@ -6,66 +6,15 @@ import "slick-carousel/slick/slick-theme.css";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import Image from 'next/image';
+import { useSelector } from 'react-redux';
+import { truncateText } from '@/utils/helperFunction';
+import { useRouter } from 'next/navigation';
 
 const MyCommunities = () => {
-  const communities = [
-    {
-            id: 1,
-            name: "AI Champs",
-            description:
-              "Join our AI community to explore the cutting-edge advancements, share insights, collaborate with experts, and stay updated on the latest developments in artificial intelligence.",
-            members: "10.1K Members",
-          },
-          {
-            id: 2,
-            name: "Data Science Wizards",
-            description:
-              "Join our Data Science community to dive into the world of data, analyze trends, build models, and uncover valuable insights from complex datasets.",
-            members: "8.5K Members",
-          },
-          {
-            id: 3,
-            name: "Machine Learning Gurus",
-            description:
-              "Join our Machine Learning community to discuss algorithms, techniques, and applications of ML, and exchange ideas with fellow enthusiasts and experts.",
-            members: "6.2K Members",
-          },
-          {
-            id: 4,
-            name: "Deep Learning Explorers",
-            description:
-              "Join our Deep Learning community to explore neural networks, deep architectures, and cutting-edge DL technologies, and share your projects and findings.",
-            members: "5.8K Members",
-          },
-          {
-            id: 5,
-            name: "Robotics Enthusiasts",
-            description:
-              "Join our Robotics community to delve into the world of robots, automation, and intelligent systems, and collaborate on exciting projects and research.",
-            members: "4.3K Members",
-          },
-          {
-            id: 6,
-            name: "Computer Vision Experts",
-            description:
-              "Join our Computer Vision community to explore the latest advancements in CV, discuss image processing techniques, and share your projects and ideas.",
-            members: "3.9K Members",
-          },
-          {
-            id: 7,
-            name: "Natural Language Processing Masters",
-            description:
-              "Join our NLP community to delve into language processing, sentiment analysis, and text generation, and collaborate on innovative NLP projects.",
-            members: "2.7K Members",
-          },
-          {
-            id: 8,
-            name: "AI Ethics Advocates",
-            description:
-              "Join our AI Ethics community to discuss the ethical implications of AI technologies, promote responsible AI development, and advocate for fairness and transparency.",
-            members: "1.8K Members",
-          },
-  ];
+
+
+  const { profile } = useSelector((state: any) => state.profile);
+const router = useRouter();
 
   // Define gradient colors
   const gradients = [
@@ -82,7 +31,7 @@ const MyCommunities = () => {
   };
 
   // Generate gradient class names using community index as the seed
-  const gradientClassNames = communities.map((_, index) => generateGradientClassName(index / communities.length));
+  const gradientClassNames = profile?.relation?.communities.map((_:any, index:any) => generateGradientClassName(index / profile?.relation?.communities?.length));
 
   const CustomPrevArrow = ({currentSlide,slideCount,...props}:any) => (
     <button {...props}>
@@ -126,6 +75,11 @@ const MyCommunities = () => {
     ],
   };
 
+  const handleCommunityClick = (slug:any) => {
+    // dispatch<any>(getCommunity({communityId:communityId}))
+    router.push(`/community/${slug}`)
+  }
+
   return (
     <>
       <div className="my-communities p-4 mt-16 ">
@@ -133,28 +87,52 @@ const MyCommunities = () => {
           My Communities
         </h2>
         <Slider {...settings}>
-          {communities?.map((community, index) => (
+          {profile?.relation?.communities?.map((community:any, index:any) => (
+
             <div
-              key={community.id}
-              className={` w-[300px] h-[320px] bg-gradient-to-br ${gradientClassNames[index]} rounded-lg p-4 flex gap-4 items-center shadow-lg mr-4 `}
+             onClick={() => handleCommunityClick(community?.slug)}
+              key={community._id}
+              className={` w-[300px] h-[320px] bg-gradient-to-br ${gradientClassNames[index]} rounded-lg p-4 flex gap-4 items-center shadow-lg mr-4 cursor-pointer hover:scale-105 transition-transform transform my-4`}
             >
               <Image
               width='64'
               height='64'
-                src="https://media.istockphoto.com/id/1424987910/photo/coworkers-with-stacked-hands-at-the-office.jpg?s=1024x1024&w=is&k=20&c=zRECSFVK3ZaCa-OCMH_xhrB5x2iGpjy7p-_RL3ywafw="
-                alt={community.name}
+                src={community?.communityImage}
+                alt={community?.name}
                 className="w-16 h-16 rounded-full mr-4 my-2 "
               />
               <div className="flex flex-col gap-2">
-                <h3 className="text-lg font-bold text-white mb-1">
-                  {community.name}
+                <h3 className={`text-lg font-bold text-white mb-1 ${community?.name?.length > 30 ? "": "mt-[28px]"}`}>
+                  {truncateText(community?.name,45)}
                 </h3>
                 <p className="text-sm text-gray-200 mb-1">
-                  {community.description}
+                  {truncateText(community?.description,150)}
                 </p>
-                <p className="text-sm text-gray-300">{community.members}</p>
+                <div className="flex gap-4 items-center mt-6 xs:mt-12">
+        <div className="flex -space-x-2">
+          {community?.members?.slice(0, 3).map((member: any, index: any) => (
+            <img
+              key={index}
+              src={member?.avatar}
+              alt={`${member?.username} avatar`}
+              title={member?.username}
+              className="w-8 h-8 rounded-full border-2 border-white"
+            />
+          ))}
+          {community?.members?.length > 3 && (
+            <span className="flex items-center justify-center w-8 h-8 rounded-full bg-gray-300 text-gray-700 border-2 border-white">
+              +{community?.members?.length - 3}
+            </span>
+          )}
+        </div>
+        <p>
+          <strong>{community?.members?.length}</strong> Members
+        </p>
+      </div>
+                {/* <p className="text-sm text-gray-300">{community?.members?.length}</p> */}
               </div>
             </div>
+    
           ))}
         </Slider>
       </div>

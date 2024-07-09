@@ -34,7 +34,7 @@ const HeroSection = () => {
     dispatch<any>(getTrendingArticles({ skipCount: 0 }));
     if (user?.user?.userId) {
       dispatch<any>(
-        getForYouArticles({ userId: user?.user?.userId, skipCount: 0,secondQuerySkipCount:0 })
+        getForYouArticles({ userId: user?.user?.userId, skipCount: 0,forYouSecondQuerySkipCount:0,userBasedSecondQuerySkipCount:0 })
       );
     }
   }, [dispatch, user]);

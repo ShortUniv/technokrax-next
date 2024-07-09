@@ -25,7 +25,6 @@ const ArticlePreview = ({ publish, setPublish }: any) => {
 
   useEffect(() => {
     const content = editor?.getHTML();
-    console.log(content);
 
     if (content) {
       // Parse the HTML content to extract the first node
@@ -170,7 +169,7 @@ const ArticlePreview = ({ publish, setPublish }: any) => {
           category: selectedCategory,
           contentType: contentType,
           name: user?.user?.name,
-          creator: user?.user?.userId,
+          createdBy: user?.user?.userId,
           tags: tags,
           selectedFile: image,
         },
@@ -186,7 +185,7 @@ const ArticlePreview = ({ publish, setPublish }: any) => {
           Content Preview
         </h3>
         <div
-          className=" flex  flex-col xs:w-[290px]  w-[330px] h-[150px] sm:w-[440px] sm:h-[200px] bg-[rgba(0,0,0,0.05)] relative"
+          className=" flex  flex-col xs:w-[290px]  w-[330px] h-[150px] sm:w-[440px] sm:h-[200px] bg-[rgba(0,0,0,0.05)] relative  justify-center items-center"
           aria-placeholder="Preview Image"
         >
           {image ? (
@@ -198,12 +197,16 @@ const ArticlePreview = ({ publish, setPublish }: any) => {
                 width={440}
                 height={200}
               />
-
-              <div className="p-2 rounded-lg bg-black  opacity-50 absolute left-28 top-24">
-                <button className="text-[#FFFFFF]" onClick={handleUploadClick}>
-                  Change Preview Image
-                </button>
-              </div>
+<div className="absolute inset-0 flex justify-center items-center">
+        <div className="p-2 rounded-lg bg-black opacity-50">
+          <button
+            className="text-white"
+            onClick={handleUploadClick}
+          >
+            Change Preview Image
+          </button>
+        </div>
+      </div>
             </>
           ) : (
             <div>

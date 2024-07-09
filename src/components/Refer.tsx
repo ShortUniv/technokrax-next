@@ -1,13 +1,11 @@
 'use client'
 import React, { useState, useRef, useEffect } from "react";
-
 import { MuiChipsInput } from "mui-chips-input";
 import { MenuItem, Select } from "@mui/material";
 import { useDispatch } from "react-redux";
-import logo from "../assets/uploadimg.svg";
-import { referArticle } from "../actions/HomePage";
 import axios from "axios";
 import { NavbarComponent } from "./Navbar";
+import { referArticle } from "../actions/HomePage";
 
 const Refer = () => {
   const dispatch = useDispatch();
@@ -52,12 +50,10 @@ const Refer = () => {
       try {
         const imageUrl = await uploadToImgBB(file);
         if (imageUrl) {
-          // Update your articleData with the imageUrl
           setImage(imageUrl);
-          console.log("url:", imageUrl); // Log the imageUrl to verify
+          console.log("url:", imageUrl);
         }
       } catch (error) {
-        // Handle error appropriately, e.g., show error message to user
         console.error("Error uploading image:", error);
       }
     }
@@ -88,17 +84,30 @@ const Refer = () => {
     setErrors("");
   };
 
-  const handlePublish = async () => {
-    const contentType = "referarticle";
+  const generateTagId = (title: any) => {
+    const formattedTitle = title
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/(^-|-$)/g, "");
+    const timestamp = Date.now().toString(36);
+    const randomChars = Math.random().toString(36).substring(2, 10);
 
+    return `${formattedTitle}-${timestamp}-${randomChars}`;
+  };
+  const tagId = generateTagId(title);
+
+  const handlePublish = async () => {
+    const contentType = "referArticle";
+    console.log("referTag:", tagId);
     const formData = {
+      tagId: tagId,
       title: title,
       description: subtext,
       link: link,
       category: selectedCategory,
       contentType: contentType,
       name: user?.user?.name,
-      creator: user?.user?.userId,
+      createdBy: user?.user?.userId,
       tags: tags,
       selectedFile: image,
     };
@@ -125,24 +134,23 @@ const Refer = () => {
       return;
     }
 
-    dispatch<any>(
-      referArticle({
-        title: title,
-        description: subtext,
-        link: link,
-        category: selectedCategory,
-        contentType: contentType,
-        name: user?.user?.name,
-        creator: user?.user?.userId,
-        tags: tags,
-        selectedFile: image,
-        type: "publish",
-      })
-    );
+    dispatch<any>(referArticle({ ...formData, type: "publish" }));
     clear();
   };
   const handleDraft = async () => {
     const contentType = "article";
+    const formData = {
+      tagId: tagId,
+      title: title,
+      description: subtext,
+      link: link,
+      category: selectedCategory,
+      contentType: contentType,
+      name: user?.user?.name,
+      createdBy: user?.user?.userId,
+      tags: tags,
+      selectedFile: image,
+    };
     if (!title && !subtext && !link && !image) {
       setErrors("All Fields Are Empty.");
       setTimeout(() => {
@@ -150,20 +158,7 @@ const Refer = () => {
       }, 1000);
       return;
     }
-    dispatch<any>(
-      referArticle({
-        title: title,
-        description: subtext,
-        link: link,
-        category: selectedCategory,
-        contentType: contentType,
-        name: user?.user?.name,
-        creator: user?.user?.userId,
-        tags: tags,
-        selectedFile: image,
-        type: "draft",
-      })
-    );
+    dispatch<any>(referArticle({ ...formData, type: "draft" }));
   };
   return (
     <>
@@ -180,48 +175,42 @@ const Refer = () => {
           />
 
           <textarea
-            // rows={3}
             className=" focus:outline-none border-b-[2px] max-w-[440px] flex-wrap resize-none text-[#0000008A]"
             placeholder="Write a sub-title here"
             value={subtext}
-            style={{}}
             onChange={handleSubTextChange}
           />
 
           <div
-            className=" flex  flex-col w-[330px] h-[150px] sm:w-[440px] sm:h-[200px] bg-[rgba(0,0,0,0.05)] relative"
+            className="flex justify-center items-center flex-col w-[330px] h-[150px] sm:w-[440px] sm:h-[200px] bg-[rgba(0,0,0,0.05)] relative"
             aria-placeholder="Preview Image"
           >
             {image ? (
               <>
-                <img
-                  src={image}
-                  alt=""
-                  className="relative w-[440px] h-[200px]"
-                />
-
-                <div className="p-2 rounded-lg bg-black  opacity-50 absolute left-28 top-24">
-                  <button
-                    className="text-[#FFFFFF]"
-                    onClick={handleUploadClick}
-                  >
-                    Change Preview Image
-                  </button>
+                <img src={image} alt="" className="w-[440px] h-[200px]" />
+                <div className="absolute inset-0 flex justify-center items-center">
+                  <div className="p-2 rounded-lg bg-black opacity-50">
+                    <button
+                      className="text-white"
+                      onClick={handleUploadClick}
+                    >
+                      Change Preview Image
+                    </button>
+                  </div>
                 </div>
               </>
             ) : (
-              <div className="relative " onClick={handleUploadClick}>
-                <img
-                  src={logo}
-                  alt=""
-                  className="relative w-[330px] h-[150px] sm:w-[440px] sm:h-[200px]"
-                />
-                <button className="absolute bottom-[2%] max-sm:text-xs left-[35%] border-2 border-black rounded-full p-2 pl-4 pr-4 shadow-lg hover:shadow-xl hover:shadow-slate-400">
+              <div
+                className="flex justify-center items-center w-full h-full"
+                onClick={handleUploadClick}
+              >
+                <button className="text-sm border-2 border-black rounded-full px-6 py-2 shadow-md hover:shadow-lg hover:bg-black hover:text-white transition-all duration-300">
                   Add Image
                 </button>
               </div>
             )}
           </div>
+
           <input
             type="file"
             accept="image/*"
@@ -300,8 +289,6 @@ const Refer = () => {
               onChange={handleAdd}
               size="small"
               placeholder="Add tags..."
-              // label="Add Tags"
-              // variant="outlined"
             />
           </div>
           <p className="text-[16px] text-[#000000AD]">

@@ -1,7 +1,8 @@
 const articleHomeRecommendationReducer = (
   state: any = {
     isLoading: true,
-    secondQuerySkipCount:0,
+    forYouSecondQuerySkipCount:0,
+    userBasedSecondQuerySkipCount:0,
     forYouRecommendedArticles: [],
     userBasedRecommendedArticles: [],
   },
@@ -16,20 +17,24 @@ const articleHomeRecommendationReducer = (
       return {
         ...state,
         forYouRecommendedArticles: action.payload.forYouArticles.articles,
-        userBasedRecommendedArticles: action.payload.userBasedArticles,
-        secondQuerySkipCount: action.payload.forYouArticles.secondQuerySkipCount
+        userBasedRecommendedArticles: action.payload.userBasedArticles.articles,
+        forYouSecondQuerySkipCount: action.payload.forYouArticles.forYouSecondQuerySkipCount,
+        userBasedSecondQuerySkipCount: action.payload.userBasedArticles.userBasedSecondQuerySkipCount,
       };
       case "UPDATE_FOR_YOU_ARTICLES_STATE":
       return {
         ...state,
         forYouRecommendedArticles: [...state.forYouRecommendedArticles, ...action.payload.forYouArticles.articles],
-        secondQuerySkipCount: action.payload.forYouArticles.secondQuerySkipCount
+        forYouSecondQuerySkipCount: action.payload.forYouArticles.forYouSecondQuerySkipCount
 
       };
       case "UPDATE_USER_BASED_ARTICLE_STATE":
       return {
         ...state,
-        userBasedRecommendedArticles: [...state.userBasedRecommendedArticles, ...action.payload.userBasedArticles],
+        userBasedRecommendedArticles: [...state.userBasedRecommendedArticles, ...action.payload.userBasedArticles.articles],
+        userBasedSecondQuerySkipCount: action.payload.forYouArticles.userBasedSecondQuerySkipCount,
+
+
       };
 
     default:

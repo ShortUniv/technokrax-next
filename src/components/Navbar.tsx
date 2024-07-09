@@ -1,3 +1,5 @@
+
+
 "use client";
 
 import { useState, useEffect } from "react";
@@ -18,7 +20,6 @@ import SearchBar from "./SearchBar";
 import { jwtDecode } from "jwt-decode";
 import { navLinks, UserProfileOptions } from "../constants/sampleData";
 
-
 interface DecodedToken {
   exp: number;
   iat: number;
@@ -31,49 +32,34 @@ interface User {
   };
   token: string;
 }
-export const NavbarComponent = () => {
 
+export const NavbarComponent = () => {
   const notifications = [1, 2, 4, 5];
   const noOfNotifications = notifications?.length;
-const [user,setUser] = useState<any>(null)
-// const [user, setUser] = useState(JSON.parse(localStorage.getItem("profile")!));
+  const [user, setUser] = useState<any>(null);
 
   const router = useRouter();
 
   const [notificationActive, setNotificationActive] = useState(false);
 
-  
-
-
   const [toggle, setToggle] = useState(false);
   const [active, setActive] = useState("");
 
   const [showSearchBar, setShowSearchBar] = useState(false);
-  
-//   const setLocalStorage = () => {
-//   const profile = {
-//     user: {
-//       name: "Abdul Almas",
-//     token: "50f0959be7735106f2ebea8dbf896825df6040b9"
-//   }
-// }
-// localStorage.setItem("profile", JSON.stringify(profile));
-// }
 
-const handleLogout = () => {
-  router.push("/signin");
-  localStorage.removeItem("profile");
-  setUser(null);
-};
+  const handleLogout = () => {
+    router.push("/signin");
+    localStorage.removeItem("profile");
+    setUser(null);
+  };
 
-  
   useEffect(() => {
     if (typeof window !== "undefined") {
       const token = user?.token;
 
       if (token) {
         const decodedToken = jwtDecode(token);
-  
+
         if (
           decodedToken &&
           decodedToken.exp &&
@@ -81,23 +67,10 @@ const handleLogout = () => {
         )
           handleLogout();
       }
-  
+
       setUser(JSON.parse(localStorage.getItem("profile")!));
     }
   }, [router]);
-
-
-  // useEffect(() => {
-  //   if (typeof window !== "undefined") {
-  //     const profile = localStorage.getItem("profile");
-  //     setUser(profile ? JSON.parse(profile) : null);
-  //   }
-  // }, [router]);
-
-  // const handleLogout = () => {
-  //   router.push("/signin");
-  //   setUser(null);
-  // };
 
   return (
     <>
@@ -137,7 +110,7 @@ const handleLogout = () => {
                     News
                   </a>
                   <a
-                    href="#"
+                    href="/tools"
                     className="text-[#242831] content-center hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-semibold"
                   >
                     Tools
@@ -172,74 +145,51 @@ const handleLogout = () => {
               </div>
             ) : (
               <div className="lg:flex hidden gap-6 w-[30%] lg:max-xl:gap-2">
-                <div className="flex relative gap-6 group items-center lg:max-xl:gap-2">
-                  {/* <Tooltip title="Write Article">
-                    <Link href="/write">
-                      <button className="flex">
-                        <AddCircleIcon
-                          fontSize="large"
-                          className="text-gray-500 font-light"
-                          style={{ fontSize: "45px" }}
-                        />
-                      </button>
-                    </Link> 
-                  </Tooltip> */}
-                     <div>
-                    <button className="flex">
-                      <AddCircleIcon
-                        fontSize="large"
-                        className="text-gray-500 font-light"
-                        style={{ fontSize: "45px" }}
-                      />
-                    </button>
-                  </div>
-                  <div className="absolute z-40 text-wrap flex-col gap-2 top-11 right-4 w-fit h-fit hidden group-hover:flex items-center justify-center p-2 bg-gray-200 rounded-md shadow-lg md:text-nowrap ">
+                <div className="group relative">
+                  <button className="flex">
+                    <AddCircleIcon
+                      fontSize="large"
+                      className="text-gray-500 font-light"
+                      style={{ fontSize: '45px' }}
+                    />
+                  </button>
+                  <div className="absolute z-40 text-wrap flex-col gap-2 top-11 right-4 w-fit h-fit hidden group-hover:flex items-center justify-center p-2 bg-gray-200 rounded-md shadow-lg md:text-nowrap">
                     <Link
-                      className=" p-2 hover:bg-gray-700 rounded-lg hover:text-white "
+                      className="p-2 hover:bg-gray-700 rounded-lg hover:text-white"
                       href="/write"
                     >
                       Write Article
                     </Link>
                     <Link
-                      className=" p-2 hover:bg-gray-700 rounded-lg hover:text-white "
+                      className="p-2 hover:bg-gray-700 rounded-lg hover:text-white"
                       href="/refer"
                     >
                       Refer Article
                     </Link>
                   </div>
-
-
-
-                  <div className="relative">
-                    <Tooltip title="notifications">
-                      <button
-                        onClick={() =>
-                          setNotificationActive(!notificationActive)
-                        }
-                      >
-                        <CircleNotificationsIcon
-                          fontSize="small"
-                          style={{ fontSize: "45px"}}
-                        />
-                      </button>
-                    </Tooltip>
-                    {noOfNotifications > 0 && (
-                      <div className="absolute flex top-0 w-5 h-5 bg-red-700 rounded-full text-white items-center justify-center right-0 text-sm">
-                        {noOfNotifications}
-                      </div>
-                    )}
-                  </div>
                 </div>
-                <div className="flex lg:gap-6">
+                <div className="flex gap-6 items-center lg:max-xl:gap-2">
+                  <Link href={`/notifications`}>
+                    <div className="relative">
+                      <Tooltip title="notifications">
+                        <button>
+                          <CircleNotificationsIcon
+                            fontSize="small"
+                            style={{ fontSize: "45px"}}
+                          />
+                        </button>
+                      </Tooltip>
+                      {noOfNotifications > 0 && (
+                        <div className="absolute flex top-0 w-5 h-5 bg-red-700 rounded-full text-white items-center justify-center right-0 text-sm">
+                          {noOfNotifications}
+                        </div>
+                      )}
+                    </div>
+                  </Link>
                   <Tooltip title="My Profile">
                     <Link href={`/profile/${user?.user?.userId}`}>
-                    <button className="w-[40px] h-[40px] bg-purple-700 rounded-full mt-[2px] text-white text-[20px] flex items-center justify-center">
-                    {user?.user?.name.charAt(0).toUpperCase()}
-                    {/* <Avatar
-                          src={user?.user?.name.charAt(0)}
-                          alt={user?.user?.name.charAt(0).toUpperCase()}
-                          style={{ backgroundColor: "purple" }}
-                        /> */}
+                      <button className="w-[40px] h-[40px] bg-purple-700 rounded-full mt-[2px] text-white text-[20px] flex items-center justify-center">
+                        {user?.user?.name.charAt(0).toUpperCase()}
                       </button>
                     </Link>
                   </Tooltip>
@@ -307,7 +257,7 @@ const handleLogout = () => {
                           key={link.id}
                           className={`${
                             active === link.title ? "text-[gray]" : "text-blue"
-                          } font-poppins font-medium cursor-pointer text-[16px]`}
+                          } font-poppins font-medium cursor-pointer text-[16px}`}
                           onClick={() => {
                             setToggle(!toggle);
                             setActive(link.title);

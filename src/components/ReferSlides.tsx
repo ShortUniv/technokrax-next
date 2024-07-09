@@ -1,18 +1,19 @@
-'use client'
-
+"use client";
 
 import React, { useEffect, useState } from "react";
 import alterimg from "../assets/AlterImg.svg";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
 import ThumbUpOutlined from "@mui/icons-material/ThumbUpOutlined";
 import { saveHighlights, likeArticle } from "../actions/Article";
 import CommentIcon from "@mui/icons-material/Comment";
 import toast from "react-hot-toast";
 import ShareIcon from "@mui/icons-material/Share";
-import { FaCommentAlt } from "react-icons/fa";
 import ArticleComments from "./ArticleComments";
 import { useRouter } from "next/navigation";
+import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
+import { addViewToArticle } from "../actions/Article";
+
 const ReferSlides = ({
   chunk,
   handlepopup,
@@ -22,29 +23,29 @@ const ReferSlides = ({
 }: any) => {
   const dispatch = useDispatch();
   const router = useRouter();
-  //For likes
 
   useEffect(() => {
-    if (chunk?.content) {
+    if (chunk) {
       setLikes(chunk?.likes);
       setCommentsState(chunk?.comments);
     }
     window.scrollTo(0, 0);
-  }, [dispatch]);
+  }, [chunk]);
+
   const [commentsState, setCommentsState] = useState([]);
   const [likes, setLikes] = useState<any>([]);
   const user = JSON.parse(localStorage.getItem("profile")!);
   const userId = user?.result?.googleId || user?.user?.userId;
   const hasLikedPost = likes?.find((like: any) => like === userId);
-  // console.log(likes);
-  // console.log(user);
+
   const formatLikesCount = (count: any) => {
     if (count >= 50) {
-      const formattedCount = (count / 1000).toFixed(1); // Convert to K format with one decimal place
+      const formattedCount = (count / 1000).toFixed(1);
       return `${formattedCount}K`;
     }
-    return count; // Return the original count if it's less than 1000
+    return count;
   };
+
   const Likes = () => {
     const formattedLikes = formatLikesCount(likes?.length);
 
@@ -52,8 +53,7 @@ const ReferSlides = ({
       return likes.includes(user?.user?.userId) ? (
         <>
           <ThumbUpAltIcon fontSize="small" />
-          &nbsp;
-          {formattedLikes}
+          &nbsp;{formattedLikes}
         </>
       ) : (
         <>
@@ -81,6 +81,7 @@ const ReferSlides = ({
         likeArticle({
           tagId: chunk?.tagId,
           userId: user?.user?.userId,
+          type:"referArticle"
         })
       );
       if (hasLikedPost) {
@@ -91,30 +92,33 @@ const ReferSlides = ({
     }
   };
 
-  //
-
-  // for comments
-
   const [commentsActive, setCommentsActive] = useState(false);
 
-  const concatenateTitles = (title1: string, limit: number) => {
-    if (title1?.length > limit) return title1.slice(0, limit) + "...";
-    return title1;
+  const truncateText = (text: string, limit: number) => {
+    if (text?.length > limit) return text.slice(0, limit) + "...";
+    return text;
   };
+
   const handleclick = (tagId: any, con: any) => {
     if (con) {
       setContent(con);
+      dispatch<any>(
+        addViewToArticle({ tagId:tagId, userId: user?.user?.userId,type:"referArticle" })
+      );
       handlepopup();
     } else {
+      dispatch<any>(
+        addViewToArticle({ tagId:tagId, userId: user?.user?.userId,type:"article" })
+      );
+
       router.push(`/articles/${tagId}`);
-      console.log("error");
     }
   };
-  //
+
   const handleShare = async () => {
     try {
       {
-        selectedOption == "article"
+        selectedOption === "article"
           ? await navigator.clipboard.writeText(
               `https://technokrax.com/articles/${chunk?.tagId}`
             )
@@ -127,7 +131,17 @@ const ReferSlides = ({
       toast.error("Failed to copy link. Please try again.");
     }
   };
-  console.log(selectedOption);
+
+  const getInitials = (name: any) => {
+    if (!name) return "";
+
+    const names = name.split(" ");
+    return names
+      .map((name: any) => name.charAt(0))
+      .join("")
+      .toUpperCase();
+  };
+
   return (
     <>
       <ArticleComments
@@ -136,44 +150,74 @@ const ReferSlides = ({
         tagId={chunk?.tagId}
         commentsState={commentsState}
         setCommentsState={setCommentsState}
+        type="referArticle"
       />
-      <div className="flex gap-12 flex-wrap p-5 ">
+      <div className="flex flex-wrap gap-8 p-5">
         {chunk && (
-          <div className="flex flex-col relative  sm:w-[305px] w-full pb-8  sm:h-[480px] 0 shadow-lg hover:shadow-2xl hover:shadow-[#96a0f3c9] transition-shadow rounded-lg">
+          <div className="relative flex flex-col w-full pb-8 transition-shadow shadow-lg sm:w-[305px] sm:h-[480px] hover:shadow-2xl hover:shadow-[#96a0f3c9] rounded-lg bg-white">
             <img
               style={{ cursor: "pointer" }}
               onClick={() => {
                 handleclick(chunk.tagId, chunk?.link);
               }}
-              className="object-cover max-w-full sm:max-h-[230px] sm:h-[170px] bg-black shadow-lg  rounded-t-md  "
+              className="object-cover w-full h-[230px] bg-black shadow-lg rounded-t-md sm:h-[170px]"
               src={chunk.selectedFile ? chunk?.selectedFile : alterimg}
               alt="imghere"
             />
-
             <div
               style={{ cursor: "pointer" }}
-              className="pt-7 pl-4 font-bold text-xl p-2"
+              className="flex flex-col p-4"
               onClick={() => {
                 handleclick(chunk.tagId, chunk?.link);
               }}
             >
-              {concatenateTitles(chunk?.title, 90)}
-              <div className="text-gray-600 font-medium text-sm ">
-                {selectedOption == "article" ? "By" : "Referred By"}{" "}
-                {chunk?.name}
+              <h2
+                className={`font-bold text-xl leading-tight ${
+                  chunk.title.length > 30 ? "mt-1" : "mt-7"
+                }`}
+              >
+                {truncateText(chunk?.title, 45)}
+              </h2>
+              <div className="flex items-center mt-1 text-sm font-medium text-gray-600">
+                <div className="relative">
+                  {chunk?.createdBy?.photo ? (
+                    <img
+                      className="w-8 h-8 rounded-full"
+                      src={chunk?.createdBy?.photo}
+                      alt={
+                        chunk?.createdBy?.name
+                          ? chunk?.createdBy?.name
+                          : "User Photo"
+                      }
+                    />
+                  ) : (
+                    <div className="w-8 h-8 flex items-center justify-center rounded-full bg-purple-500 text-white text-sm font-bold">
+                      {chunk?.createdBy?.name
+                        ? getInitials(chunk?.createdBy?.name)
+                        : ""}
+                    </div>
+                  )}
+                  {/* {chunk?.createdBy?.name && (
+      <div className="absolute inset-0 bg-gray-200 rounded-full opacity-50"></div>
+    )} */}
+                </div>
+                <span className="ml-2">
+                  {selectedOption === "article" ? "By" : "Referred By"}{" "}
+                  {chunk?.createdBy?.name}
+                </span>
               </div>
+              <p className="mt-2 text-gray-700 ">
+                {truncateText(chunk?.description, 200)}
+              </p>
             </div>
-            <div className="p-2 pl-4 ">
-              {concatenateTitles(chunk?.description, 120)}
-            </div>
-            <div className="absolute left-4 bottom-2 flex gap-5 ">
-              <div
+            <div className="absolute flex gap-5 left-4 bottom-4">
+              <button
                 style={{ cursor: "pointer" }}
-                className="pb-2"
                 onClick={handleLike}
+                className="flex items-center gap-1"
               >
                 <Likes />
-              </div>
+              </button>
               <button
                 onClick={() => {
                   if (!user?.user?.userId) {
@@ -184,43 +228,21 @@ const ReferSlides = ({
                     setCommentsActive(!commentsActive);
                   }
                 }}
-                className="flex gap-1  items-center"
+                className="flex items-center gap-1"
               >
-                <CommentIcon />
-                <p>{commentsState?.length} </p>
-                <p className="hidden sm:block">
-                  {commentsState?.length > 1 ? "Comments" : "Comment"}
-                </p>
+                <CommentIcon fontSize="small" />
+                <p>{commentsState?.length}</p>
               </button>
-              <button
-                onClick={handleShare}
-                className="flex gap-1  items-center"
-              >
-                <ShareIcon />
+              <button className="flex items-center gap-1">
+                <VisibilityOutlinedIcon fontSize="small" />
+                <p>{chunk?.views?.length}</p>
+              </button>
+              <button onClick={handleShare} className="flex items-center gap-1">
+                <ShareIcon fontSize="small" />
               </button>
             </div>
-            {/* <CommentIcon /> */}
-            {/* <ThumbUpOutlined /> */}
           </div>
         )}
-
-        {/* {chunk[2] && (
-        <div
-        onClick={() => {
-          handleclick(chunk[2].tagId, chunk[2]?.link);
-          }}
-          className=" flex flex-col sm:w-[305px]   w-full sm:h-[360px] 0 shadow-lg hover:shadow-2xl hover:shadow-[#96a0f3c9] transition-shadow rounded-lg"
-          >
-          <img
-          className="object-contain max-w-full sm:max-h-[230px] bg-black  rounded-t-md  "
-          src={chunk[2].selectedFile ? chunk[2]?.selectedFile : alterimg}
-          alt="imghere"
-          />
-          <div className="pt-7 pl-4 p-2">
-          {concatenateTitles(chunk[2]?.title, 90)}
-          </div>
-          </div>
-          )} */}
       </div>
     </>
   );

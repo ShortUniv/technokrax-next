@@ -7,81 +7,52 @@ const Badges = () => {
   const { profile } = useSelector((state: any) => state.profile);
   return (
     <>
-      {profile?.achievements?.badges?.map((data: any,index:number) => (
-        <div key={data?._id || index} className=" gap-10 grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
-          <Image src={data.badgeUrl} alt="" width="100" height="100" className="w-[100px] h-[100px]" />
-          <Image src={data.badgeUrl} alt="" width="100" height="100" className="w-[100px] h-[100px]" />
-          <Image src={data.badgeUrl} alt="" width="100" height="100" className="w-[100px] h-[100px]" />
-          <Image src={data.badgeUrl} alt="" width="100" height="100" className="w-[100px] h-[100px]" />
-          <Image src={data.badgeUrl} alt="" width="100" height="100" className="w-[100px] h-[100px]" />
-          <Image src={data.badgeUrl} alt="" width="100" height="100" className="w-[100px] h-[100px]" />
-          <Image src={data.badgeUrl} alt="" width="100" height="100" className="w-[100px] h-[100px]" />
+      {profile?.achievements?.badges?.length === 0 ? (
+        <div className="col-span-2 md:col-span-2 lg:col-span-3 flex justify-center items-center text-center h-32">
+          <p className="px-1">
+            No badges to show - Continue 
+            <span className="text-blue-500 underline mx-1">
+              <a href="/learn">Learning</a>
+            </span> 
+            to earn badges.
+          </p>
         </div>
-      ))}
+      ) : (
+        <div className="gap-10 grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
+          {profile?.achievements?.badges?.map((data: any, index: number) => (
+            <div key={data?._id || index}>
+              <Image src={data.badgeUrl} alt="" width="100" height="100" className="w-[100px] h-[100px]" />
+            </div>
+          ))}
+        </div>
+      )}
     </>
   );
 };
+
 const Awards = () => {
-  // const { isLoading, profile } = useSelector((state: any) => state.profile);
+  const { profile } = useSelector((state: any) => state.profile);
   return (
     <>
-      {/* {profile?.achievements?.awards?.map((data:any) => ( */}
-      <div className=" gap-10 grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
-
-        <Image
-          src="https://i.postimg.cc/Kvgcwqp0/trophy.png"
-          alt=""
-          className="w-[100px] h-[100px]"
-          width='100'
-          height='100'
-        />
-        <Image
-          src="https://i.postimg.cc/Kvgcwqp0/trophy.png"
-          alt=""
-          className="w-[100px] h-[100px]"
-           width='100'
-          height='100'
-        />
-        <Image
-          src="https://i.postimg.cc/Kvgcwqp0/trophy.png"
-          alt=""
-          className="w-[100px] h-[100px]"
-           width='100'
-          height='100'
-        />
-        <Image
-          src="https://i.postimg.cc/Kvgcwqp0/trophy.png"
-          alt=""
-          className="w-[100px] h-[100px]"
-           width='100'
-          height='100'
-        />
-        <Image
-          src="https://i.postimg.cc/Kvgcwqp0/trophy.png"
-          alt=""
-          className="w-[100px] h-[100px]"
-           width='100'
-          height='100'
-        />
-        <Image
-          src="https://i.postimg.cc/Kvgcwqp0/trophy.png"
-          alt=""
-          className="w-[100px] h-[100px]"
-           width='100'
-          height='100'
-        />
-        <Image
-          src="https://i.postimg.cc/Kvgcwqp0/trophy.png"
-          alt=""
-          className="w-[100px] h-[100px]"
-           width='100'
-          height='100'
-        />
-      </div>
-
-      {/* ))
-        
-      } */}
+      {profile?.achievements?.awards?.length === 0 ? (
+        <div className="col-span-2 md:col-span-2 lg:col-span-3 flex justify-center items-center text-center h-32">
+          <p className="px-1">
+            No awards to show - Continue 
+            <span className="text-blue-500 underline mx-1">
+              <a href="/learn">Learning</a>
+            </span> 
+            to earn awards.
+          </p>
+        </div>
+      ) : (
+        <div className="gap-10 grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
+          {profile?.achievements?.awards?.map((data: any, index: number) => (
+            <div key={data?._id || index}>
+              <Image src={data.awardUrl} alt="" width="100" height="100" className="w-[100px] h-[100px]" />
+            </div>
+          ))}
+        </div>
+      )}
     </>
   );
 };
@@ -94,7 +65,7 @@ const Achievements = () => {
   const awardCount = profile?.achievements?.awards?.length || 0;
 
   return (
-    <div className="mt-10 flex flex-col gap-8 ">
+    <div className="mt-10 flex flex-col gap-8">
       <h2 className="font-alegreya text-[35px] font-medium">
         My Achievements ({badgeCount + awardCount})
       </h2>
@@ -123,7 +94,7 @@ const Achievements = () => {
           borderRadius: "8px",
           cursor: "pointer",
           boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
-          transition: "background 0.3s ease,",
+          transition: "background 0.3s ease",
           width: "200px",
           alignItems: "center",
         }}

@@ -1,6 +1,6 @@
 // @ts-nocheck
-'use client'
-import { useState, useEffect } from "react";
+"use client";
+import { useState, useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getArticleByIds } from "@/actions/HomePage";
 import { useParams } from "next/navigation";
@@ -33,6 +33,7 @@ import { NavbarComponent } from "./Navbar";
 import Footer from "./Footer";
 import Chattop from "./ChatModel/Chattop";
 import toast from "react-hot-toast";
+import UserHoverCard from "./UserHoverCard";
 
 const ArticleDetails = () => {
   const dispatch = useDispatch();
@@ -40,13 +41,22 @@ const ArticleDetails = () => {
     (state: any) => state.trendingArticles
   );
   const [user, setUser] = useState<User | null>(null);
+  const userRef = useRef<User | null>(null); // Create a ref for user
+
   useEffect(() => {
     const profile = localStorage.getItem("profile");
     if (profile) {
-      setUser(JSON.parse(profile));
+      const parsedProfile = JSON.parse(profile);
+      setUser(parsedProfile);
+      userRef.current = parsedProfile; // Update the ref
     }
   }, []);
-
+  // useEffect(() => {
+  //   const profile = localStorage.getItem("profile");
+  //   if (profile) {
+  //     setUser(JSON.parse(profile));
+  //   }
+  // }, []);
 
   const [selectedNoteIndex, setSelectedNoteIndex] = useState(null);
   const [selectedDisplayNoteIndex, setSelectedDisplayNoteIndex] =
@@ -61,7 +71,7 @@ const ArticleDetails = () => {
   useEffect(() => {
     const interactionTimeTracker = new BrowserInteractionTime({
       stopTimerOnTabchange: true,
-      idleTimeoutMs: 3000,
+      idleTimeoutMs: 30000,
       timeIntervalEllapsedCallbacks: [
         {
           callback: (timeInMs) => {
@@ -117,7 +127,7 @@ const ArticleDetails = () => {
       dispatch<any>(
         activeInteractionTime({
           interactionTime: interactionTime,
-          userId: user?.user?.userId,
+          userId: userRef.current?.user?.userId,
           tagId: tagId,
         })
       );
@@ -304,6 +314,8 @@ const ArticleDetails = () => {
         likeArticle({
           tagId: trendingArticles?.article?.tagId,
           userId: user?.user?.userId,
+          type:"article"
+
         })
       );
       if (hasLikedPost) {
@@ -349,6 +361,33 @@ const ArticleDetails = () => {
     return count; // Return the original count if it's less than 1000
   };
 
+  const [hoverCardVisible, setHoverCardVisible] = useState(false);
+  const [hoverCardPosition, setHoverCardPosition] = useState({ top: 0, left: 0 });
+  const [hoveredUser, setHoveredUser] = useState(null);
+  const hoverTimeout = useRef(null);
+
+  const handleMouseEnter = (e, user) => {
+    clearTimeout(hoverTimeout.current);
+    const rect = e.target.getBoundingClientRect();
+    setHoverCardPosition({ top: rect.bottom + window.scrollY, left: rect.left + window.scrollX });
+    setHoveredUser(user);
+    setHoverCardVisible(true);
+  };
+
+  const handleMouseLeave = () => {
+    hoverTimeout.current = setTimeout(() => {
+      setHoverCardVisible(false);
+    }, 300);
+  };
+
+  const handleMouseEnterCard = () => {
+    clearTimeout(hoverTimeout.current);
+  };
+
+  const handleMouseLeaveCard = () => {
+    setHoverCardVisible(false);
+  };
+
   return (
     <>
       <NavbarComponent />
@@ -358,6 +397,7 @@ const ArticleDetails = () => {
         tagId={trendingArticles?.article?.tagId}
         commentsState={commentsState}
         setCommentsState={setCommentsState}
+        type="article"
       />
       <Chattop
         text={chatText}
@@ -376,17 +416,52 @@ const ArticleDetails = () => {
         <div className="text-black overflow-hidden ">
           <div className="mx-[5%] md:mx-[15%] lg:mx-[20%] xl:mx-[24%] 2xl:mx-[28%]">
             <div className="flex  text-[16px] gap-2 mt-6 mb-2 ">
-              <p className="flex gap-2 font-normal">
-                By
-                <span className="font-semibold">
-                  {trendingArticles?.article?.name}
-                </span>
-                |
-              </p>
-              <div className="font-normal">
-                {moment(trendingArticles?.article?.createdAt).format(
-                  "MMMM D, YYYY"
+              <div className="flex items-center gap-2">
+                {trendingArticles?.article?.createdBy?.photo ? (
+                  <img
+                    className="w-8 h-8 rounded-full cursor-pointer hover:shadow-lg transition-shadow duration-300"
+                    src={trendingArticles?.article?.createdBy?.photo}
+                    alt={
+                      trendingArticles?.article?.createdBy?.name || "User Photo"
+                    }
+                    onMouseEnter={(e) =>
+                      handleMouseEnter(e, trendingArticles?.article?.createdBy)
+                    }
+                    onMouseLeave={handleMouseLeave}
+                  />
+                ) : (
+                  <div
+                    className="w-8 h-8 flex items-center justify-center rounded-full bg-purple-500 text-white text-sm font-bold cursor-pointer hover:shadow-lg transition-shadow duration-300"
+                    onMouseEnter={(e) =>
+                      handleMouseEnter(e, trendingArticles?.article?.createdBy)
+                    }
+                    onMouseLeave={handleMouseLeave}
+                  >
+                    {trendingArticles?.article?.createdBy?.name
+                      ? trendingArticles?.article?.createdBy?.name
+                          .charAt(0)
+                          .toUpperCase()
+                      : ""}
+                  </div>
                 )}
+
+                <p
+                  className="flex gap-2 font-normal cursor-pointer hover:underline"
+                  onMouseEnter={(e) =>
+                    handleMouseEnter(e, trendingArticles?.article?.createdBy)
+                  }
+                  onMouseLeave={handleMouseLeave}
+                >
+                  <span className="font-semibold">
+                    {trendingArticles?.article?.createdBy?.name}
+                  </span>
+                  |
+                </p>
+                <div className="font-normal">
+                  {moment(trendingArticles?.article?.createdAt).format(
+                    "MMMM D, YYYY"
+                  )}
+                </div>
               </div>
             </div>
             <p className=" font-medium mb-10 ">
@@ -559,6 +634,14 @@ const ArticleDetails = () => {
             </div>
           )}
           <Footer />
+        </div>
+      )}
+     {hoverCardVisible && (
+        <div
+          onMouseEnter={handleMouseEnterCard}
+          onMouseLeave={handleMouseLeaveCard}
+        >
+          <UserHoverCard user={hoveredUser} position={hoverCardPosition} />
         </div>
       )}
     </>

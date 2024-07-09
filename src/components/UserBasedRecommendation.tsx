@@ -8,7 +8,7 @@ const UserBasedRecommendation = () => {
   const heading = "Users Similar to you likes this";
   const subheading =
     "See personalised videos, articles and blogs in the world of tech";
-  const { userBasedRecommendedArticles, isLoading } = useSelector(
+  const { userBasedRecommendedArticles, isLoading,userBasedSecondQuerySkipCount } = useSelector(
     (state: any) => state?.recommendedArticles
   );
 
@@ -31,6 +31,7 @@ const UserBasedRecommendation = () => {
       subheading={subheading}
       isLoading={isLoading}
       type="userBasedArticles"
+      userBasedSecondQuerySkipCount={userBasedSecondQuerySkipCount}
       />
       )}
     </>

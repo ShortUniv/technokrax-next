@@ -114,7 +114,7 @@ const MyLearning:any = () => {
       <h2 className="text-3xl font-bold mb-4 font-alegreya">My Learning</h2>
       <Slider {...settings}>
         {articles.map((article) => (
-          <div key={article.id} className="w-[434.34px] h-[424px] bg-white shadow-md rounded-lg overflow-hidden">
+          <div key={article.id} className="w-[434.34px] h-[424px] bg-white shadow-md rounded-lg overflow-hidden hover:scale-105 transform transition-transform my-4 cursor-pointer">
             <Image src={article.imageUrl} alt={article.title} className="w-full h-48 object-cover object-center" width='192'
             height='192'/>
             <div className="p-4">

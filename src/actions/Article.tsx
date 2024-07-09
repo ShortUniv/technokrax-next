@@ -19,6 +19,7 @@ export const saveNotes = (noteData: any) => async () => {
 };
 
 export const activeInteractionTime = (interactionTimeData: any) => async () => {
+  console.log(interactionTimeData)
   try {
     await api.activeInteractionTimeApi(interactionTimeData);
   } catch (error) {
@@ -43,3 +44,13 @@ export const saveComment = (comment: any) => async () => {
     console.log(error);
   }
 };
+
+export const addViewToArticle = (viewData:any) => async () => {
+  try {
+    const {data} = await api.addViewToArticleApi(viewData);
+    console.log(data.success)
+  } catch (error) {
+    console.log(error);
+    
+  }
+} 

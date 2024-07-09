@@ -9,6 +9,8 @@ import "react-loading-skeleton/dist/skeleton.css";
 import TrendingArticlesSkeleton from "./TrendingArticlesSkeleton";
 import { useDispatch } from "react-redux";
 import { getSliderArticles } from "../../actions/HomePage";
+import { addViewToArticle } from "@/actions/Article";
+import CommentIcon from "@mui/icons-material/Comment"
 
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
@@ -25,7 +27,8 @@ const HomeArticle = ({
   heading,
   subheading,
   type,
-  secondQuerySkipCount
+  forYouSecondQuerySkipCount,
+  userBasedSecondQuerySkipCount,
 }: any) => {
   const router = useRouter();
 
@@ -36,7 +39,7 @@ const HomeArticle = ({
   const [isVertical, setIsVertical] = useState(false);
   const [itemHeight, setItemHeight] = useState(0);
   const [isBeingFetched, setIsBeingFetched] = useState<any>(false);
-  
+
   const [user, setUser] = useState<User | null>(null);
   useEffect(() => {
     const profile = localStorage.getItem("profile");
@@ -46,6 +49,14 @@ const HomeArticle = ({
   }, []);
 
   const handleOpenArticle = (tagId: any) => {
+    dispatch<any>(
+      addViewToArticle({
+        tagId: tagId,
+        userId: user?.user?.userId,
+        type: "article",
+      })
+    );
+
     router.push(`/articles/${tagId}`);
   };
 
@@ -81,7 +92,8 @@ const HomeArticle = ({
             skipCount: article?.length,
             type: type,
             userId: user?.user?.userId,
-            secondQuerySkipCount:secondQuerySkipCount
+            forYouSecondQuerySkipCount: forYouSecondQuerySkipCount,
+            userBasedSecondQuerySkipCount: userBasedSecondQuerySkipCount,
           },
           setIsBeingFetched
         )
@@ -222,7 +234,7 @@ const HomeArticle = ({
                         </p>
                       </div>
                       <div className="flex">
-                        <FavoriteBorderOutlinedIcon />
+                        <CommentIcon />
                         <p className="text-[10px] font-medium pt-1">
                           Comments{" "}
                           {formatLikesCount(data?.comments?.low) || (

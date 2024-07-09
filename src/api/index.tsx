@@ -30,6 +30,7 @@ export const saveHighlightsApi = (highlightsData: any) =>
   API.post("/api/articles/saveHighlights", highlightsData);
 export const saveNotesApi = (noteData: any) =>
   API.post("/api/articles/saveNotes", noteData);
+export const addViewToArticleApi = (viewData:any) => API.post(`/api/articles/addViewToArticle`,viewData)
 
 export const signIn = (FormData: any) => API.post("api/users/signin", FormData);
 export const signUp = (FormData: any) =>

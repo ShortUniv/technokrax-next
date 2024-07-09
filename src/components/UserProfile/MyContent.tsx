@@ -1,245 +1,185 @@
-'use client'
 
+'use client'
 import { useState } from "react";
-import { PlayCircleOutline } from "@mui/icons-material"; 
+import { PlayCircleOutline, ThumbUpAlt, Chat, Visibility } from "@mui/icons-material";
 import Image from "next/image";
+import { useSelector } from "react-redux";
+import moment from "moment";
+import { truncateText } from "@/utils/helperFunction";
+import { useRouter } from "next/navigation";
+
+
 
 
 const Articles = () => {
-  const articles = [
-    {
-      id: 1,
-      title: "The Future of Artificial Intelligence",
-      description:
-        "Explore the latest advancements and future prospects of AI technology.",
-      imageUrl: "https://images.unsplash.com/photo-1696258686454-60082b2c33e2?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      date: "April 1, 2024",
-      likes: 24,
-      comments: 5,
-    },
-    {
-      id: 2,
-      title: "Introduction to Machine Learning Algorithms",
-      description:
-        "Learn about the fundamental algorithms used in machine learning and their applications.",
-      imageUrl: "https://images.unsplash.com/photo-1611117775350-ac3950990985?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      date: "March 25, 2024",
-      likes: 18,
-      comments: 3,
-    },
-    {
-      id: 3,
-      title: "Data Science for Beginners",
-      description:
-        "Get started with data science and learn essential concepts, tools, and techniques.",
-      imageUrl: "https://images.unsplash.com/photo-1523961131990-5ea7c61b2107?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      date: "March 18, 2024",
-      likes: 32,
-      comments: 7,
-    },
-  ];
+  const { profile } = useSelector((state:any) => state.profile);
+const router = useRouter();
+  
+
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-      {articles.map((article) => (
-        <div
-          key={article.id}
-          className="bg-white shadow-md rounded-lg overflow-hidden"
-        >
-          <Image
-            src={article.imageUrl}
-            alt={article.title}
-            className="w-full h-48 object-cover object-center"
-            width='192'
-            height='192'
-          />
-          <div className="p-4">
-            <h3 className="text-lg font-semibold mb-2">{article.title}</h3>
-            <p className="text-sm text-gray-600 mb-2">{article.description}</p>
-            <div className="flex justify-between items-center">
-              <p className="text-sm text-gray-500">{article.date}</p>
-              <div className="flex items-center space-x-2">
-                <span className="text-sm text-gray-500">
-                  {article.likes} Likes
-                </span>
-                <span className="text-sm text-gray-500">
-                  {article.comments} Comments
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+      {profile?.creation?.articles.map((article:any) => (
+        <ArticleCard key={article.id} article={article} />
       ))}
     </div>
   );
 };
+
+const ArticleCard = ({ article }:any) => (
+  <div className="bg-white rounded-lg overflow-hidden shadow-md hover:scale-105 transform transition-transform cursor-pointer">
+    <div className="relative h-60">
+      <Image
+        src={article.selectedFile}
+        alt={article.title}
+        layout="fill"
+        objectFit="cover"
+        className="object-center"
+      />
+    </div>
+    <div className="p-4">
+      <h3 className="text-xl font-semibold mb-2">{article.title}</h3>
+      <p className="text-gray-600 mb-4">{truncateText(article.description,150)}</p>
+      <div className="flex justify-between items-center">
+        <p className="text-sm text-gray-500">{moment(article.date).format("MMMM D, YYYY")}</p>
+        <div className="flex items-center space-x-4">
+          <div className="flex items-center space-x-2">
+            <Visibility className="text-gray-500" />
+            <span className="text-sm text-gray-500">{article.views.length}</span>
+          </div>
+          <div className="flex items-center space-x-2">
+            <ThumbUpAlt className="text-gray-500" />
+            <span className="text-sm text-gray-500">{article.likes.length}</span>
+          </div>
+          <div className="flex items-center space-x-2">
+            <Chat className="text-gray-500" />
+            <span className="text-sm text-gray-500">{article.comments.length}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+);
 
 const Videos = () => {
-  const videos = [
-    {
-      id: 1,
-      title: "Introduction to Neural Networks",
-      description:
-        "Learn the basics of neural networks and how they simulate the human brain.",
-      thumbnailUrl: "https://plus.unsplash.com/premium_photo-1678834890201-47674c716347?q=80&w=1780&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      duration: "10:35",
-      views: 1234,
-      likes: 56,
-    },
-    {
-      id: 2,
-      title: "Advanced Machine Learning Techniques",
-      description:
-        "Explore advanced techniques in machine learning, including deep learning and reinforcement learning.",
-      thumbnailUrl: "https://images.unsplash.com/photo-1561557944-6e7860d1a7eb?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      duration: "15:20",
-      views: 2100,
-      likes: 87,
-    },
-    {
-      id: 3,
-      title: "Data Visualization with Python",
-      description:
-        "Learn how to create stunning visualizations of your data using Python libraries like Matplotlib and Seaborn.",
-      thumbnailUrl: "https://plus.unsplash.com/premium_photo-1682126325927-0e6399d5d170?q=80&w=2000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      duration: "12:45",
-      views: 1500,
-      likes: 72,
-    },
-  ];
+  const { profile } = useSelector((state:any) => state.profile);
+  const videos = profile?.creation?.videos || [];
+
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-      {videos.map((video) => (
-        <div
-          key={video.id}
-          className="relative bg-white shadow-md rounded-lg overflow-hidden"
-        >
-          <Image
-            src={video.thumbnailUrl}
-            alt={video.title}
-            width={192}
-            height={192}
-            className="w-full h-48 object-cover object-center"
-          />
-          <div className="absolute inset-0 flex items-center justify-center">
-            <PlayCircleOutline
-              className="text-white h-16 mb-28"
-              style={{ fontSize: "50px" }}
-            />
-          </div>
-          <div className="p-4">
-            <h3 className="text-lg font-semibold mb-2">{video.title}</h3>
-            <p className="text-sm text-gray-600 mb-2">{video.description}</p>
-            <div className="flex justify-between items-center">
-              <div className="flex items-center space-x-2">
-                <span className="text-sm text-gray-500">{video.duration}</span>
-                <span className="text-sm text-gray-500">
-                  {video.views} Views
-                </span>
-              </div>
-              <div className="flex items-center space-x-2">
-                <span className="text-sm text-gray-500">
-                  {video.likes} Likes
-                </span>
-                <button className="text-blue-500 hover:text-blue-700 focus:outline-none focus:text-blue-700 cursor-pointer transition-colors duration-200">
-                  Watch now
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+      {videos.map((video:any) => (
+        <VideoCard key={video.id} video={video} />
       ))}
     </div>
   );
 };
 
-const News = () => {
-  const newsData = [
-    {
-      title: "Example News 1",
-      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-      imageUrl: "https://plus.unsplash.com/premium_photo-1661584163462-b226cd58ae2e?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      category: "Technology",
-    },
-    {
-      title: "Example News 2",
-      description:
-        "Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-      imageUrl: "https://images.unsplash.com/photo-1508921340878-ba53e1f016ec?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      category: "Science",
-    },
-    {
-      title: "Example News 3",
-      description:
-        "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
-      imageUrl: "https://plus.unsplash.com/premium_photo-1689701711439-e54f039f8d97?q=80&w=1914&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      category: "Health",
-    },
-  ];
-  return (
-    <>
-         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-
-        {newsData.map((data,index:number) => (
-          <div key={index}className="max-w-sm rounded overflow-hidden shadow-lg mx-auto">
-            <img
-              className="w-full h-48 object-cover object-center"
-              src={data.imageUrl}
-              alt={data.title}
-            />
-            <div className="px-6 py-4">
-              <div className="font-bold text-xl mb-2">{data.title}</div>
-              <p className="text-gray-700 text-base">{data.description}</p>
-            </div>
-            <div className="px-6 py-4">
-              <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2">
-                {data.category}
-              </span>
-            </div>
-          </div>
-        ))}
+const VideoCard = ({ video }:any) => (
+  <div className="bg-white rounded-lg overflow-hidden shadow-md">
+    <div className="relative h-80">
+      <Image
+        src={video.thumbnailUrl}
+        alt={video.title}
+        layout="fill"
+        objectFit="cover"
+        className="object-center"
+      />
+      <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 transition-opacity opacity-0 hover:opacity-100">
+        <PlayCircleOutline className="text-white h-16 mb-28" style={{ fontSize: "50px" }} />
       </div>
-    </>
+    </div>
+    <div className="p-4">
+      <h3 className="text-xl font-semibold mb-2">{video.title}</h3>
+      <p className="text-gray-600 mb-4">{video.description}</p>
+      <div className="flex justify-between items-center">
+        <div className="flex items-center space-x-4">
+          <span className="text-sm text-gray-500">{video.duration}</span>
+          <Visibility className="text-gray-500" />
+          <span className="text-sm text-gray-500">{video.views}</span>
+        </div>
+        <ThumbUpAlt className="text-gray-500" />
+        <span className="text-sm text-gray-500">{video.likes}</span>
+      </div>
+    </div>
+  </div>
+);
+
+const News = () => {
+  const { profile } = useSelector((state:any) => state.profile);
+  const newsData = profile?.creation?.news || [];
+
+  return (
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+      {newsData.map((data:any, index:any) => (
+        <NewsCard key={index} data={data} />
+      ))}
+    </div>
   );
 };
 
+const NewsCard = ({ data }:any) => (
+  <div className="bg-white rounded-lg overflow-hidden shadow-md">
+    <Image
+      src={data.imageUrl}
+      alt={data.title}
+      width={600}
+      height={400}
+      className="object-cover"
+    />
+    <div className="p-4">
+      <h3 className="text-xl font-semibold mb-2">{data.title}</h3>
+      <p className="text-gray-600 mb-4">{data.description}</p>
+      <div className="flex justify-between items-center">
+        <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700">
+          {data.category}
+        </span>
+      </div>
+    </div>
+  </div>
+);
+
 const MyContent = () => {
-  const [active, setActive] = useState<any>("articles");
+  const [active, setActive] = useState("articles");
+  const { profile } = useSelector((state:any) => state.profile);
+
+  const ContentMessage = ({ contentType, createLink }:any) => (
+    <div className="flex items-center justify-center h-60">
+      <div className="text-center">
+        <p className="text-lg text-gray-500 mb-4">
+          {`You have not created any ${contentType}. Click `}
+          <a href={createLink} className="text-blue-500 hover:underline">here</a>
+          {` to create one.`}
+        </p>
+      </div>
+    </div>
+  );
 
   return (
-    <div className="mt-16 p-4 flex flex-col gap-8 mb-28">
-      <h2 className="text-3xl font-alegreya font-bold">My Posts</h2>
-      <div className="flex gap-16 sm:gap-24 xs:gap-10">
+    <div className="mt-16 p-4">
+      <h2 className="text-3xl font-bold mb-8">My Posts</h2>
+      <div className="flex gap-8">
         <h3
-          className={`font-alegreya text-[23px] font-medium cursor-pointer ${active === "articles" ? "text-blue-500 border-b-2 border-blue-500" : ""}`}
+          className={`cursor-pointer text-lg font-semibold ${active === "articles" ? "text-blue-500 border-b-2 border-blue-500" : ""}`}
           onClick={() => setActive("articles")}
         >
           Articles
         </h3>
-
         <h3
-          className={`font-alegreya text-[23px] font-medium cursor-pointer ${active === "videos" ? "text-blue-500 border-b-2 border-blue-500" : ""}`}
+          className={`cursor-pointer text-lg font-semibold ${active === "videos" ? "text-blue-500 border-b-2 border-blue-500" : ""}`}
           onClick={() => setActive("videos")}
         >
           Videos
         </h3>
-
         <h3
-          className={`font-alegreya text-[23px] font-medium cursor-pointer ${active === "news" ? "text-blue-500 border-b-2 border-blue-500" : ""}`}
+          className={`cursor-pointer text-lg font-semibold ${active === "news" ? "text-blue-500 border-b-2 border-blue-500" : ""}`}
           onClick={() => setActive("news")}
         >
           News
         </h3>
       </div>
-      <div>
-        {active === "articles" ? (
-          <Articles />
-        ) : active === "videos" ? (
-          <Videos />
-        ) : active === "news" ? (
-          <News />
-        ) : (
-          <div>{/* Default component when none of the tabs are active */}</div>
-        )}
+      <div className="mt-8">
+        {active === "articles" && (profile?.creation?.articles.length !== 0 ? <Articles /> : <ContentMessage contentType="articles" createLink="/write"/>)}
+        {active === "videos" && (profile?.creation?.videos.length !== 0 ? <Videos /> : <ContentMessage contentType="videos" createLink="/write"/>)}
+        {active === "news" && (profile?.creation?.news.length !== 0 ? <News /> : <ContentMessage contentType="news" createLink="/write"/>)}
       </div>
     </div>
   );

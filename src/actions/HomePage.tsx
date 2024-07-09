@@ -17,7 +17,7 @@ export const getForYouArticles = (userId: any) => async (dispatch: any) => {
   try {
     dispatch({ type: "START_LOADING" });
     const { data } = await api.getForYouArticlesApi(userId);
-   console.log("forYouUpdated:",data)
+    console.log("forYouUpdated:", data);
     dispatch({ type: "RECOMMEDED_HOME_PAGE_ARTICLES", payload: data.result });
     dispatch({ type: "END_LOADING" });
   } catch (error) {
@@ -30,7 +30,7 @@ export const getSliderArticles =
     try {
       // dispatch({ type: "START_LOADING" });
       const { data } = await api.getSliderArticlesApi(articleSliderData);
-      console.log("data",data)
+      console.log("data", data);
       if (data.type === "forYouArticles") {
         dispatch({
           type: "UPDATE_FOR_YOU_ARTICLES_STATE",
@@ -85,6 +85,7 @@ export const getArticleById = async (
 
 export const createArticle =
   (content: any, router: any) => async (dispatch: any) => {
+    console.log("c:",content)
     const toastId = toast.loading("Loading...");
 
     try {
@@ -112,16 +113,24 @@ export const getToken = () => async () => {
   }
 };
 
-
-//will look later 
+//will look later
 
 export const referArticle = (content: any) => async (dispatch: any) => {
+  const toastId = toast.loading("Loading...");
+console.log("tagId:",content.tagId)
   try {
     const { data } = await api.referArticleApi(content);
-    console.log(data);
+
+    if (!data.success) {
+      throw new Error(data.message);
+    }
+
+    toast.success("Article referred successfully!");
   } catch (err) {
     console.log(err);
+    toast.error("error referring article");
   }
+  toast.dismiss(toastId);
 };
 
 export const getarticle = (category: any) => async (dispatch: any) => {

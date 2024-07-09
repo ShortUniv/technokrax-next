@@ -21,6 +21,7 @@ const ArticleComments = ({
   tagId,
   commentsState,
   setCommentsState,
+  type
 }: any) => {
   const [user, setUser] = useState<User | null>(null);
 
@@ -40,6 +41,7 @@ const ArticleComments = ({
         userId: user?.user?.userId,
         name: user?.user?.name,
         tagId: tagId,
+        type: type
       })
     );
     setCommentsState((prev: any) => [
