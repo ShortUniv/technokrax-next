@@ -1,17 +1,17 @@
 //@ts-nocheck
 
-'use client'
+"use client";
 
-import { HocuspocusProvider } from '@hocuspocus/provider'
+import { HocuspocusProvider } from "@hocuspocus/provider";
 
-import { API } from '../lib/api'
-
+import { API } from "../lib/api";
+import { Title } from "./Title";
 import {
-
   BlockquoteFigure,
   CharacterCount,
   Color,
   Document,
+  // Title,
   Dropcursor,
   Emoji,
   Figcaption,
@@ -45,20 +45,24 @@ import {
   Column,
   TaskItem,
   TaskList,
-} from '.'
-import { CodeBlockLowlight } from '@tiptap/extension-code-block-lowlight'
-import { ImageUpload } from './ImageUpload'
-import { TableOfContentsNode } from './TableOfContentsNode'
-import { lowlight } from 'lowlight'
+} from ".";
+import { CodeBlockLowlight } from "@tiptap/extension-code-block-lowlight";
+import { ImageUpload } from "./ImageUpload";
+import { TableOfContentsNode } from "./TableOfContentsNode";
+import { lowlight } from "lowlight";
 
 interface ExtensionKitProps {
-  provider?: HocuspocusProvider | null
-  userId?: string
-  userName?: string
-  userColor?: string
+  provider?: HocuspocusProvider | null;
+  userId?: string;
+  userName?: string;
+  userColor?: string;
 }
 
-export const ExtensionKit = ({ provider, userId, userName = 'Maxi' }: ExtensionKitProps) => [
+export const ExtensionKit = ({
+  provider,
+  userId,
+  userName = "Maxi",
+}: ExtensionKitProps) => [
   Document,
   Columns,
   TaskList,
@@ -67,9 +71,9 @@ export const ExtensionKit = ({ provider, userId, userName = 'Maxi' }: ExtensionK
   }),
 
   Column,
+  Title,
   Selection,
   Heading.configure({
-  
     levels: [1, 2, 3, 4, 5, 6],
   }),
   HorizontalRule,
@@ -81,7 +85,6 @@ export const ExtensionKit = ({ provider, userId, userName = 'Maxi' }: ExtensionK
     blockquote: false,
     history: false,
     codeBlock: false,
-  
   }),
   CodeBlockLowlight.configure({
     lowlight,
@@ -102,28 +105,30 @@ export const ExtensionKit = ({ provider, userId, userName = 'Maxi' }: ExtensionK
   TableOfContentsNode,
   ImageUpload.configure({
     clientId: provider?.document?.clientID,
-    
   }),
   ImageBlock,
   FileHandler.configure({
-    allowedMimeTypes: ['image/png', 'image/jpeg', 'image/gif', 'image/webp'],
+    allowedMimeTypes: ["image/png", "image/jpeg", "image/gif", "image/webp"],
     onDrop: (currentEditor, files, pos) => {
       files.forEach(async () => {
-        const url = await API.uploadImage()
+        const url = await API.uploadImage();
 
-        currentEditor.chain().setImageBlockAt({ pos, src: url }).focus().run()
-      })
+        currentEditor.chain().setImageBlockAt({ pos, src: url }).focus().run();
+      });
     },
     onPaste: (currentEditor, files) => {
       files.forEach(async () => {
-        const url = await API.uploadImage()
+        const url = await API.uploadImage();
 
         return currentEditor
           .chain()
-          .setImageBlockAt({ pos: currentEditor.state.selection.anchor, src: url })
+          .setImageBlockAt({
+            pos: currentEditor.state.selection.anchor,
+            src: url,
+          })
           .focus()
-          .run()
-      })
+          .run();
+      });
     },
   }),
   Emoji.configure({
@@ -132,10 +137,10 @@ export const ExtensionKit = ({ provider, userId, userName = 'Maxi' }: ExtensionK
   }),
   TextAlign.extend({
     addKeyboardShortcuts() {
-      return {}
+      return {};
     },
   }).configure({
-    types: ['heading', 'paragraph'],
+    types: ["heading", "paragraph"],
   }),
   Subscript,
   Superscript,
@@ -144,21 +149,30 @@ export const ExtensionKit = ({ provider, userId, userName = 'Maxi' }: ExtensionK
   TableHeader,
   TableRow,
   Typography,
-  Placeholder.configure({
-    includeChildren: true,
-    showOnlyCurrent: false,
+  // Placeholder.configure({
+  //   includeChildren: true,
+  //   showOnlyCurrent: false,
+  //   placeholder: () => "",
+  // }),
 
-    placeholder: () => '',
+  Placeholder.configure({
+    showOnlyCurrent: false,
+    placeholder: ({ node }) => {
+      if (node.type.name === "title") {
+        return "What's the title?";
+      }
+  
+      return "What's the story?";
+    },
   }),
   SlashCommand,
   Focus,
   Figcaption,
   BlockquoteFigure,
   Dropcursor.configure({
-  
     width: 2,
-    class: 'ProseMirror-dropcursor border-black',
+    class: "ProseMirror-dropcursor border-black",
   }),
-]
+];
 
-export default ExtensionKit
+export default ExtensionKit;

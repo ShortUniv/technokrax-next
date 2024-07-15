@@ -10,10 +10,13 @@ import TrendingArticlesSkeleton from "./TrendingArticlesSkeleton";
 import { useDispatch } from "react-redux";
 import { getSliderArticles } from "../../actions/HomePage";
 import { addViewToArticle } from "@/actions/Article";
-import CommentIcon from "@mui/icons-material/Comment"
+import CommentIcon from "@mui/icons-material/Comment";
 
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
+import { truncateText } from "@/utils/helperFunction";
+import moment from "moment";
+import Link from "next/link";
 
 interface User {
   user: {
@@ -69,13 +72,6 @@ const HomeArticle = ({
     } else {
       return count;
     }
-  };
-
-  const truncateTitle = (title: any, maxLength: number) => {
-    if (!title) return "";
-    return title.length > maxLength
-      ? `${title.substring(0, maxLength)}...`
-      : title;
   };
 
   const handleNextSlide = async () => {
@@ -203,51 +199,92 @@ const HomeArticle = ({
                 </div>
               ))
             : article?.map((data: any, index: number) => {
-                const title = truncateTitle(data?.title, 40);
+                const description = truncateText(data?.description, 100);
                 return (
                   <div
                     key={index}
-                    onClick={() => handleOpenArticle(data?.tagId)}
-                    className={`cursor-pointer flex-shrink-0 flex-grow sm:px-2 px-4 py-6 ${
+                    className={` flex-shrink-0 flex-grow sm:px-2 px-4 py-6 ${
                       window.innerWidth > 450 && window.innerWidth <= 640
                         ? "px-[16%] "
                         : ""
                     }`}
                     style={{ flex: `0 0 calc((100% - 7%) / ${itemsPerPage})` }}
                   >
-                    <img
-                      src={data?.imgUrl || "hii"}
-                      alt="img"
-                      className="rounded-[20px] h-[232px] w-full "
-                    />
-                    <h3 className="text-[24px] font-semibold leading-[29px] text-wrap">
-                      {data?.title ? title : <Skeleton />}
-                    </h3>
-                    <div className="flex gap-7 pt-2">
-                      <div className="flex gap-1">
-                        <ThumbUpOutlinedIcon />
-                        <p className="text-[10px] font-medium pt-1">
-                          Likes{" "}
-                          {formatLikesCount(Math.floor(data?.likes?.low)) || (
-                            <Skeleton />
-                          )}
-                        </p>
+                  
+                    <div >
+                      <div onClick={() => handleOpenArticle(data?.tagId)} className="cursor-pointer">
+
+                      <img
+                        src={data?.imgUrl || "hii"}
+                        alt="img"
+                        className="rounded-[20px] h-[232px] w-full "
+                        />
+                      <h3
+                        className={`text-[24px] font-semibold leading-[29px] text-wrap ${
+                          data?.title?.length > 30 ? "mb-0" : "mb-7"
+                        }`}
+                      >
+                        {truncateText(data?.title, 40)}
+                      </h3>
+                      <p
+                        className={`${
+                          description?.length < 70 ? "mt-6" : "mb-0"
+                        }`}
+                        >
+                        {description}
+                      </p>
+                        </div>
+                      <div className="flex justify-between my-2 px-2">
+                      <div className="flex gap-2">
+                        {data?.creatorPhoto ? (
+                          <img
+                            src={data?.creatorPhoto}
+                            alt={data.creatorName}
+                            className="w-6 h-6 rounded-full"
+                          />
+                        ) : (
+                          <div className="w-6 h-6 flex items-center justify-center rounded-full bg-purple-500 text-white text-sm font-bold cursor-pointer hover:shadow-lg transition-shadow duration-300">
+                            {data?.creatorName?.charAt(0).toUpperCase()}
+                          </div>
+                        )}
+                        <Link href={`/profile/${data?.creatorUserId}`}>
+                          <p>
+                            <span className="font-medium font-sans hover:text-gray-600 hover:underline text-sm">
+                              {data?.creatorName}
+                            </span>
+                          </p>
+                        </Link>
                       </div>
-                      <div className="flex">
-                        <CommentIcon />
-                        <p className="text-[10px] font-medium pt-1">
-                          Comments{" "}
-                          {formatLikesCount(data?.comments?.low) || (
-                            <Skeleton />
-                          )}
-                        </p>
+                      <div className="font-normal text-sm">
+                        {moment(data?.createdAt).format("MMMM D, YYYY")}
                       </div>
-                      <div className="flex">
-                        <VisibilityOutlinedIcon />
-                        <p className="text-[10px] font-medium pt-1">
-                          Views{" "}
-                          {formatLikesCount(data?.views?.low) || <Skeleton />}
-                        </p>
+                    </div>
+                      <div className="flex gap-7 pt-2 cursor-pointer" onClick={() => handleOpenArticle(data?.tagId)}>
+                        <div className="flex gap-1">
+                          <ThumbUpOutlinedIcon />
+                          <p className="text-[10px] font-medium pt-1">
+                            Likes{" "}
+                            {formatLikesCount(Math.floor(data?.likes?.low)) || (
+                              <Skeleton />
+                            )}
+                          </p>
+                        </div>
+                        <div className="flex gap-1">
+                          <CommentIcon />
+                          <p className="text-[10px] font-medium pt-1">
+                            Comments{" "}
+                            {formatLikesCount(data?.comments?.low) || (
+                              <Skeleton />
+                            )}
+                          </p>
+                        </div>
+                        <div className="flex gap-1">
+                          <VisibilityOutlinedIcon />
+                          <p className="text-[10px] font-medium pt-1">
+                            Views{" "}
+                            {formatLikesCount(data?.views?.low) || <Skeleton />}
+                          </p>
+                        </div>
                       </div>
                     </div>
                   </div>

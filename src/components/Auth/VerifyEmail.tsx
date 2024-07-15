@@ -1,16 +1,16 @@
 'use client'
 import { useEffect, useState } from "react";
 import OtpInput from "react-otp-input";
-import  Link  from "next/link";
+import Link from "next/link";
 import { BiArrowBack } from "react-icons/bi";
 import { RxCountdownTimer } from "react-icons/rx";
 import { useDispatch, useSelector } from "react-redux";
-import { sendOtp,signup } from "@/actions/Auth";
+import { sendOtp, signup } from "@/actions/Auth";
 import { useRouter } from "next/navigation";
 
 interface RootState {
   authData: {
-    authData: Record<string, AuthState>;
+    authData: AuthState;
     isLoading: boolean;
   };
 }
@@ -28,14 +28,13 @@ function VerifyEmail() {
     (state: RootState) => state.authData
   );
   const dispatch = useDispatch();
-const router = useRouter();
+  const router = useRouter();
+
   useEffect(() => {
-    // Only allow access of this route when user has filled the signup form
     if (!authData) {
       router.push("/signup");
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [authData, router]);
 
   const handleVerifyAndSignup = (e: any) => {
     e.preventDefault();
@@ -56,18 +55,16 @@ const router = useRouter();
   };
 
   return (
-    <div className="min-h-[calc(100vh-3.5rem)] grid place-items-center">
+    <div className="min-h-[calc(100vh-3.5rem)] grid place-items-center bg-gray-100">
       {isLoading ? (
-        <div>
-          <div className="spinner"></div>
-        </div>
+        <div className="spinner"></div>
       ) : (
-        <div className="max-w-[500px] p-4 lg:p-8">
-          <h1 className="text-richblack-5 font-semibold text-[1.875rem] leading-[2.375rem]">
+        <div className="max-w-[500px] p-6 lg:p-10 bg-white rounded-lg shadow-lg">
+          <h1 className="text-gray-800 font-bold text-2xl lg:text-3xl mb-4">
             Verify Email
           </h1>
-          <p className="text-[1.125rem] leading-[1.625rem] my-4 text-richblack-100">
-            A verification code has been sent to you. Enter the code below
+          <p className="text-gray-600 text-lg lg:text-xl mb-6">
+            A verification code has been sent to you. Enter the code below.
           </p>
           <form onSubmit={handleVerifyAndSignup}>
             <OtpInput
@@ -77,11 +74,11 @@ const router = useRouter();
               renderInput={(props) => (
                 <input
                   {...props}
-                  placeholder="-"
+                  placeholder=""
                   style={{
-                    boxShadow: "inset 0px -1px 0px rgba(255, 255, 255, 0.18)",
+                    boxShadow: "inset 0px -1px 0px rgba(0, 0, 0, 0.1)",
                   }}
-                  className="w-[48px] lg:w-[60px] border-0 bg-richblack-800 rounded-[0.5rem] text-richblack-5 aspect-square text-center focus:border-0 focus:outline-2 focus:outline-yellow-50"
+                  className="w-10 lg:w-14 border-2 border-gray-300 bg-gray-50 rounded-md text-gray-900 aspect-square text-center focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               )}
               containerStyle={{
@@ -91,19 +88,24 @@ const router = useRouter();
             />
             <button
               type="submit"
-              className="w-full bg-yellow-200 py-[12px] px-[12px] rounded-[8px] mt-6 font-medium text-richblack-900"
+              className={`w-full py-3 px-4 rounded-md mt-6 font-semibold text-white ${
+                otp.length < 6
+                  ? "bg-blue-300 cursor-not-allowed"
+                  : "bg-blue-500 hover:bg-blue-600"
+              }`}
+              disabled={otp.length < 6}
             >
               Verify Email
             </button>
           </form>
           <div className="mt-6 flex items-center justify-between">
             <Link href="/signup">
-              <p className="text-richblack-5 flex items-center gap-x-2">
+              <p className="text-blue-500 hover:text-blue-600 flex items-center gap-x-2">
                 <BiArrowBack /> Back To Signup
               </p>
             </Link>
             <button
-              className="flex items-center text-blue-100 gap-x-2"
+              className="flex items-center text-blue-500 hover:text-blue-600 gap-x-2"
               onClick={() => dispatch<any>(sendOtp(authData.email, router))}
             >
               <RxCountdownTimer />

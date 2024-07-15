@@ -25,21 +25,59 @@ const ArticlePreview = ({ publish, setPublish }: any) => {
 
   useEffect(() => {
     const content = editor?.getHTML();
+    console.log("content",content)
+
+    // if (content) {
+    //   // Parse the HTML content to extract the first node
+    //   const parser = new DOMParser();
+    //   const doc = parser.parseFromString(content, "text/html");
+    //   // const firstNode = doc.body.firstChild;
+    //   const firstImage = doc.body.querySelector("img");
+    //   const firstH1 = doc.body.querySelector("h1");
+    //   if (firstH1) {
+    //     setTitle(firstH1.textContent);
+    //     const remainingContent = firstH1.nextSibling?.textContent || "";
+    //     const trimmedContent = remainingContent.trim();
+    //     const subtextLength = Math.min(trimmedContent.length, 140);
+    //     const newSubtext = trimmedContent.slice(0, subtextLength);
+    //     setSubtext(newSubtext + "....");
+    //   } else {
+    //     const fullText = doc.body.textContent || "";
+    //     const trimmedContent = fullText.trim();
+    //     const subtextLength = Math.min(trimmedContent.length, 140);
+    //     const newSubtext = trimmedContent.slice(0, subtextLength);
+    //     setSubtext(newSubtext);
+    //   }
+
 
     if (content) {
       // Parse the HTML content to extract the first node
       const parser = new DOMParser();
       const doc = parser.parseFromString(content, "text/html");
-      // const firstNode = doc.body.firstChild;
       const firstImage = doc.body.querySelector("img");
       const firstH1 = doc.body.querySelector("h1");
+    
       if (firstH1) {
         setTitle(firstH1.textContent);
-        const remainingContent = firstH1.nextSibling?.textContent || "";
-        const trimmedContent = remainingContent.trim();
-        const subtextLength = Math.min(trimmedContent.length, 140);
-        const newSubtext = trimmedContent.slice(0, subtextLength);
-        setSubtext(newSubtext + "....");
+    
+        // Iterate over next siblings to find text content
+        let nextSibling = firstH1.nextSibling;
+        let remainingContent = "";
+    
+        while (nextSibling) {
+          if (nextSibling.nodeType === Node.TEXT_NODE && nextSibling.textContent.trim() !== "") {
+            remainingContent = nextSibling.textContent.trim();
+            break;
+          } else if (nextSibling.nodeType === Node.ELEMENT_NODE && nextSibling.tagName !== 'IMG') {
+            remainingContent = nextSibling.textContent.trim();
+            break;
+          }
+          nextSibling = nextSibling.nextSibling;
+        }
+    
+        const subtextLength = Math.min(remainingContent.length, 140);
+        const newSubtext = remainingContent.slice(0, subtextLength);
+        setSubtext(newSubtext + (newSubtext !== "" ? "...." : "" ));
       } else {
         const fullText = doc.body.textContent || "";
         const trimmedContent = fullText.trim();
@@ -47,6 +85,7 @@ const ArticlePreview = ({ publish, setPublish }: any) => {
         const newSubtext = trimmedContent.slice(0, subtextLength);
         setSubtext(newSubtext);
       }
+    
 
       if (firstImage) {
         const imageUrl = firstImage.src;
@@ -90,7 +129,7 @@ const ArticlePreview = ({ publish, setPublish }: any) => {
     }
   };
 
-  const handleAdd = (tag: any) => {
+  const handleAdd = (tag: string) => {
     setTags(tag);
   };
 
@@ -117,7 +156,9 @@ const ArticlePreview = ({ publish, setPublish }: any) => {
     return readingTimeMinutes;
   }
   const estimatedReadingTime = calculateReadingTime(editor?.getHTML());
-  const readingTime = `${estimatedReadingTime}min${estimatedReadingTime !== 1 ? "s" : ""}`;
+  const readingTime = `${estimatedReadingTime}min${
+    estimatedReadingTime !== 1 ? "s" : ""
+  }`;
 
   const clear = () => {
     setTitle("");
@@ -145,8 +186,8 @@ const ArticlePreview = ({ publish, setPublish }: any) => {
       .toLowerCase()
       .replace(/[^a-z0-9]+/g, "-")
       .replace(/(^-|-$)/g, "");
-      const timestamp = Date.now().toString(36);
-      const randomChars = Math.random().toString(36).substring(2, 10);
+    const timestamp = Date.now().toString(36);
+    const randomChars = Math.random().toString(36).substring(2, 10);
 
     return `${formattedTitle}-${timestamp}-${randomChars}`;
   };
@@ -197,16 +238,13 @@ const ArticlePreview = ({ publish, setPublish }: any) => {
                 width={440}
                 height={200}
               />
-<div className="absolute inset-0 flex justify-center items-center">
-        <div className="p-2 rounded-lg bg-black opacity-50">
-          <button
-            className="text-white"
-            onClick={handleUploadClick}
-          >
-            Change Preview Image
-          </button>
-        </div>
-      </div>
+              <div className="absolute inset-0 flex justify-center items-center">
+                <div className="p-2 rounded-lg bg-black opacity-50">
+                  <button className="text-white" onClick={handleUploadClick}>
+                    Change Preview Image
+                  </button>
+                </div>
+              </div>
             </>
           ) : (
             <div>
@@ -301,17 +339,16 @@ const ArticlePreview = ({ publish, setPublish }: any) => {
         </div>
         <div className="flex flex-col gap-1">
           <p className="text-[16px] text-[#000000E6]">
-            Add or change topics (up to 5) so readers know what your article is
-            about
+            Add tags (up to 5) so readers know what your article is about
           </p>
           <MuiChipsInput
             style={{ margin: "10px 0" }}
             value={tags}
-            onChange={handleAdd}
+            addOnWhichKey={["Enter", " "]}
+            inputValue={tags}
+            onChange={setTags}
             size="small"
-            placeholder="Add tags..."
-            // label="Add Tags"
-            // variant="outlined"
+            placeholder="Type and press Enter"
           />
         </div>
         <p className="text-[16px] text-[#000000AD]">

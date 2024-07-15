@@ -21,6 +21,7 @@ import { TextMenu } from "../menus/TextMenu";
 import { ContentItemMenu } from "../menus/ContentItemMenu";
 import ArticlePreview from "./components/ArticlePreview";
 import { NavbarComponent } from "@/components/Navbar";
+import ProseMirrorEditor from "@/styles/partials/Keydowns";
 
 export const BlockEditor = ({ ydoc, provider }: TiptapProps) => {
   const [publish, setPublish] = useState<any>(false);

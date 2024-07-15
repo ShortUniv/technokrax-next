@@ -33,10 +33,15 @@ export const useBlockEditor = ({
   const editor = useEditor(
     {
       autofocus: true,
+      content: [
+        { type: 'h1', content: [{ type: 'text', text: '' }] },
+        { type: 'h1', content: [{ type: 'text', text: '' }] },
+        { type: 'p', content: [{ type: 'text', text: '' }] },
+      ],
       onCreate: ({ editor }: any) => {
         provider?.on("synced", () => {
           if (editor.isEmpty) {
-            editor.commands.setContent("");
+            // editor.commands.setContent("");
           }
         });
       },
